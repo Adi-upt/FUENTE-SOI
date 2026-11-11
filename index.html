@@ -1,122 +1,918 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot RAG + MCP | Solución Tecnológica</title>
+    <title>Chatbot RAG + MCP | Diseño de la Solución Tecnológica — ProjectSevera</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #070b14;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Fondo de cuadrícula tecnológica y luces animadas */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+        }
+        @keyframes floatGlow {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(30px, -25px) scale(1.08); }
+        }
+        .orb-1 { animation: floatGlow 10s ease-in-out infinite; }
+        .orb-2 { animation: floatGlow 14s ease-in-out infinite reverse; }
+
+        /* Texto con gradiente animado */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .gradient-text {
+            background: linear-gradient(270deg, #38bdf8, #818cf8, #c084fc, #38bdf8);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        /* Tarjetas Glassmorphism con efectos Hover 3D suaves */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 12px 30px -10px rgba(56, 189, 248, 0.18);
+        }
+
+        /* Animación de entrada al hacer scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animación de paquetes de red en el flujo híbrido */
+        @keyframes pulseFlow {
+            0% { stroke-dashoffset: 24; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .flow-line {
+            stroke-dasharray: 6 6;
+            animation: pulseFlow 1s linear infinite;
+        }
+
+        /* Botones de pestañas activas */
+        .tab-btn.active {
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
+            border-color: #38bdf8;
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Resaltado de búsqueda */
+        .search-hit {
+            ring: 2px solid #38bdf8;
+            border-color: #38bdf8 !important;
+            background: rgba(14, 116, 144, 0.2) !important;
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-blue-600 selection:text-white">
+<body class="antialiased bg-grid selection:bg-sky-500 selection:text-white relative">
 
-    <!-- Navegación -->
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
-        <div class="text-2xl font-bold tracking-tighter">
-            RAG<span class="text-blue-400">+</span>MCP
-            <span class="text-xs font-normal text-slate-400 ml-2 border border-slate-700 px-2.5 py-1 rounded-full">ProjectSevera</span>
+    <!-- Luces de fondo ambientales -->
+    <div class="fixed top-[-10%] left-[-10%] w-[420px] h-[420px] rounded-full bg-sky-500/15 blur-[130px] pointer-events-none orb-1"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[460px] h-[460px] rounded-full bg-indigo-500/15 blur-[140px] pointer-events-none orb-2"></div>
+
+    <!-- Barra de Navegación Fija -->
+    <nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
+        <div class="p-4 md:px-8 flex flex-wrap justify-between items-center max-w-7xl mx-auto gap-4">
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center font-extrabold text-white shadow-lg shadow-sky-500/20 group-hover:scale-105 transition">
+                    S
+                </div>
+                <div class="text-xl font-extrabold tracking-tight">
+                    RAG<span class="text-sky-400">+</span>MCP
+                    <span class="text-xs font-mono text-sky-300 bg-sky-950/90 border border-sky-700/50 px-2 py-0.5 rounded-full ml-1.5">ProjectSevera</span>
+                </div>
+            </a>
+
+            <div class="hidden md:flex items-center gap-6 text-sm text-slate-300 font-medium">
+                <a href="#buscador" class="hover:text-sky-400 transition">🔍 Buscador</a>
+                <a href="#arquitectura" class="hover:text-sky-400 transition">Arquitectura</a>
+                <a href="#explorador" class="hover:text-sky-400 transition">Especificaciones</a>
+                <a href="#secciones-14" class="hover:text-sky-400 transition">14 Secciones</a>
+                <a href="#referencias" class="hover:text-sky-400 transition">Referencias APA 7</a>
+            </div>
+
+            <a href="https://github.com/Adi-upt/FUENTE-SOI" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-500 text-white text-sm px-5 py-2.5 rounded-full font-semibold transition flex items-center gap-2 shadow-lg shadow-blue-500/25 hover:scale-105">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                Ver en GitHub
+            </a>
         </div>
-        <a href="https://github.com/Adi-upt/FUENTE-SOI" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-semibold transition">
-            Ver en GitHub
-        </a>
     </nav>
 
     <!-- Hero Section -->
-    <header class="max-w-6xl mx-auto px-6 py-20 text-center">
-        <span class="bg-blue-900/80 text-blue-300 border border-blue-700/50 px-4 py-1 rounded-full text-sm font-semibold mb-6 inline-block">
-            Ingeniería de Sistemas - Unidad II
-        </span>
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+    <header class="max-w-7xl mx-auto px-6 pt-16 pb-14 text-center reveal active">
+        <div class="inline-flex items-center gap-2 bg-blue-950/80 text-sky-300 border border-sky-700/40 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold mb-6 shadow-inner">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>Ingeniería de Sistemas • Unidad II • Universidad Privada de Tacna</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
             Diseño de Solución Tecnológica<br>
             <span class="gradient-text">Chatbot de Soporte Técnico</span>
         </h1>
-        <p class="text-xl text-slate-400 max-w-3xl mx-auto mb-10">
-            Aplicación web de asistencia documental basada en Generación Aumentada por Recuperación (RAG) y Model Context Protocol (MCP), desplegada entre Microsoft Azure (Windows Server 2022) y el nodo local ProjectSevera mediante Tailscale.
+
+        <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+            Aplicación web de asistencia documental basada en <strong>Generación Aumentada por Recuperación (RAG)</strong> y <strong>Model Context Protocol (MCP)</strong>, desplegada entre <strong>Microsoft Azure (MATTEO-01)</strong> y el nodo local de IA <strong>MATTEOXPC (ProjectSevera / PyTorch)</strong> mediante red privada <strong>Tailscale</strong>.
         </p>
-        
-        <!-- Botones de Descarga -->
-        <div class="flex flex-wrap justify-center gap-4">
-            <a href="documento.pdf" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
-                📄 Descargar Documento (PDF)
+
+        <!-- 4 Botones de Descarga Oficiales -->
+        <div class="flex flex-wrap justify-center gap-4 mb-14">
+            <a href="documento.pdf" download class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
+                <span class="text-xl">📄</span> Descargar Documento (PDF)
             </a>
-            <a href="documento.docx" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
-                📝 Descargar Documento (Word)
+            <a href="documento.docx" download class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
+                <span class="text-xl">📝</span> Descargar Documento (Word)
             </a>
-            <a href="presentacion.pdf" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
-                📊 Ver Presentación (PDF)
+            <a href="presentacion.pdf" download class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
+                <span class="text-xl">📊</span> Ver Presentación (PDF)
             </a>
-            <a href="presentacion.pptx" download class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition shadow-lg shadow-blue-500/30">
-                📥 Descargar Presentación (PPTX)
+            <a href="presentacion.pptx" download class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition shadow-xl shadow-blue-500/30 hover:scale-105">
+                <span class="text-xl">📥</span> Descargar Presentación (PPTX)
             </a>
+        </div>
+
+        <!-- Contadores Rápidos del Diseño -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
+            <div class="glass-card p-5 rounded-2xl">
+                <div class="text-3xl font-extrabold text-sky-400 mb-1">14</div>
+                <div class="text-xs text-slate-300 font-medium">Secciones Oficiales</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Estructura completa</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+                <div class="text-3xl font-extrabold text-indigo-400 mb-1">4 CU / 8 RF</div>
+                <div class="text-xs text-slate-300 font-medium">Alcance Funcional</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Consulta, PDF, MCP, Login</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+                <div class="text-3xl font-extrabold text-purple-400 mb-1">11 RNF</div>
+                <div class="text-xs text-slate-300 font-medium">ISO/IEC 25010:2023</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Umbrales verificables</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+                <div class="text-3xl font-extrabold text-emerald-400 mb-1">≤ 60 s</div>
+                <div class="text-xs text-slate-300 font-medium">Meta Temporal RAG</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">≥ 18 de 20 consultas</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+                <div class="text-3xl font-extrabold text-amber-400 mb-1">≥ 16 / 20</div>
+                <div class="text-xs text-slate-300 font-medium">Corrección Documental</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">Respuestas con cita fiel</div>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+                <div class="text-3xl font-extrabold text-blue-400 mb-1">58</div>
+                <div class="text-xs text-slate-300 font-medium">Fuentes APA 7</div>
+                <div class="text-[11px] text-slate-500 mt-0.5">77.6% (2021–2026)</div>
+            </div>
         </div>
     </header>
 
-    <!-- Sobre el Proyecto (A grandes rasgos) -->
-    <section class="max-w-6xl mx-auto px-6 py-16">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h2 class="text-3xl font-bold mb-6">El Problema vs. La Solución</h2>
-                <p class="text-slate-400 mb-4 leading-relaxed">
-                    <strong class="text-white">Problema:</strong> Las instrucciones de soporte técnico suelen distribuirse en múltiples manuales y guías de configuración. La brecha entre el lenguaje del usuario y la terminología técnica dificulta localizar respuestas precisas cuando no hay un especialista disponible de inmediato.
-                </p>
-                <p class="text-slate-400 leading-relaxed">
-                    <strong class="text-white">Solución:</strong> Una arquitectura web que combina <strong>RAG</strong> (para recuperar fragmentos de manuales PDF y responder con referencias verificables o abstenerse ante falta de evidencia) y <strong>MCP</strong> (para consultar herramientas operativas de solo lectura), protegiendo la gestión documental mediante <strong>Spring Security y BCrypt</strong>.
-                </p>
+    <!-- =====================================================
+         BUSCADOR GLOBAL EN VIVO (PARA ENCONTRAR CUALQUIER DATO)
+    ====================================================== -->
+    <section id="buscador" class="max-w-6xl mx-auto px-6 py-8 reveal">
+        <div class="glass-card p-6 md:p-8 rounded-2xl border border-sky-500/30 shadow-lg shadow-sky-950/30">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <span>🔍 Explorador Rápido del Proyecto</span>
+                        <span class="text-xs font-mono bg-sky-500/20 text-sky-300 px-2.5 py-0.5 rounded-full">Búsqueda Instantánea</span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">
+                        Busca cualquier requerimiento, servidor, IP, puerto, riesgo, prueba, costo o autor (ej. <code class="text-sky-300">RF-03</code>, <code class="text-sky-300">Tailscale</code>, <code class="text-sky-300">172.16.0.4</code>, <code class="text-sky-300">RTX 5070 Ti</code>, <code class="text-sky-300">BCrypt</code>, <code class="text-sky-300">S/ 985,69</code>, <code class="text-sky-300">Greshake</code>).
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-1.5 text-[11px]">
+                    <button onclick="quickSearch('Hexagonal')" class="bg-slate-800 hover:bg-sky-600 text-slate-300 hover:text-white px-2.5 py-1 rounded-md transition">Hexagonal</button>
+                    <button onclick="quickSearch('MCP')" class="bg-slate-800 hover:bg-sky-600 text-slate-300 hover:text-white px-2.5 py-1 rounded-md transition">MCP</button>
+                    <button onclick="quickSearch('MATTEO')" class="bg-slate-800 hover:bg-sky-600 text-slate-300 hover:text-white px-2.5 py-1 rounded-md transition">Servidores</button>
+                    <button onclick="quickSearch('FW-')" class="bg-slate-800 hover:bg-sky-600 text-slate-300 hover:text-white px-2.5 py-1 rounded-md transition">Firewall</button>
+                    <button onclick="quickSearch('RNF-')" class="bg-slate-800 hover:bg-sky-600 text-slate-300 hover:text-white px-2.5 py-1 rounded-md transition">RNF ISO 25010</button>
+                    <button onclick="quickSearch('S/')" class="bg-slate-800 hover:bg-sky-600 text-slate-300 hover:text-white px-2.5 py-1 rounded-md transition">Costos S/</button>
+                    <button onclick="quickSearch('')" class="bg-rose-950/70 hover:bg-rose-700 text-rose-300 hover:text-white px-2.5 py-1 rounded-md transition">Limpiar</button>
+                </div>
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="glass-card p-6 rounded-xl text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-blue-400 mb-2">4 CU / 8 RF</div>
-                    <div class="text-sm text-slate-300">Alcance Funcional</div>
+
+            <div class="relative">
+                <input id="globalSearchInput" type="text" oninput="runGlobalSearch(this.value)" placeholder="Escribe aquí para buscar en todas las especificaciones, tablas y secciones del diseño..." class="w-full bg-slate-900/90 border border-slate-700 focus:border-sky-400 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-500 outline-none transition">
+                <span id="searchCountBadge" class="hidden absolute right-4 top-3.5 text-xs mono bg-sky-600 text-white px-2.5 py-1 rounded-md"></span>
+            </div>
+
+            <!-- Resultados instantáneos del buscador -->
+            <div id="globalSearchResults" class="hidden mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-80 overflow-y-auto pr-2"></div>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         PROBLEMA VS SOLUCIÓN + FLUJO ARQUITECTÓNICO ANIMADO
+    ====================================================== -->
+    <section id="arquitectura" class="max-w-7xl mx-auto px-6 py-12 reveal">
+        <div class="grid lg:grid-cols-12 gap-8 items-center">
+            <!-- Columna Problema vs Solución -->
+            <div class="lg:col-span-5 space-y-5">
+                <span class="text-xs font-bold uppercase tracking-wider text-sky-400 mono">Visión General del Diseño</span>
+                <h2 class="text-3xl font-extrabold">El Problema vs. La Solución</h2>
+                <div class="glass-card p-5 rounded-xl border-l-4 border-l-amber-400">
+                    <h3 class="text-sm font-bold text-amber-300 mb-1">⚠️ El Problema en Soporte Técnico</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Las instrucciones para configurar aplicaciones, dispositivos y servicios suelen dispersarse entre manuales extensos y procedimientos. La brecha entre el lenguaje coloquial del usuario y la terminología técnica dificulta hallar respuestas precisas cuando no hay un especialista disponible, mientras que un LLM puro tiende a generar alucinaciones.
+                    </p>
                 </div>
-                <div class="glass-card p-6 rounded-xl text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-indigo-400 mb-2">11 RNF</div>
-                    <div class="text-sm text-slate-300">Calidad ISO/IEC 25010</div>
+                <div class="glass-card p-5 rounded-xl border-l-4 border-l-sky-400">
+                    <h3 class="text-sm font-bold text-sky-300 mb-1">✅ La Solución Propuesta (RAG + MCP)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Separación arquitectónica de responsabilidades: <strong>RAG</strong> localiza fragmentos relevantes en manuales PDF y responde con citas verificables (o aplica abstención si la evidencia es insuficiente), mientras que <strong>MCP</strong> consulta herramientas operativas autorizadas de solo lectura bajo validación en Java.
+                    </p>
                 </div>
-                <div class="glass-card p-6 rounded-xl text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-sky-400 mb-2">≤ 60 s</div>
-                    <div class="text-sm text-slate-300">Meta de Respuesta RAG</div>
+                <div class="glass-card p-5 rounded-xl border-l-4 border-l-emerald-400">
+                    <h3 class="text-sm font-bold text-emerald-300 mb-1">🛡️ Seguridad por Diseño</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Consultas públicas sin registro (<code class="mono">RF-01</code>), administración de PDF restringida a una única cuenta <code class="mono">ADMIN</code> en memoria con <strong>Spring Security y BCrypt</strong> (<code class="mono">E-01</code>), e imposibilidad de que el texto de un PDF ejecute órdenes (<code class="mono">E-02, E-03</code>).
+                    </p>
                 </div>
-                <div class="glass-card p-6 rounded-xl text-center">
-                    <div class="text-3xl md:text-4xl font-bold text-blue-500 mb-2">+40</div>
-                    <div class="text-sm text-slate-300">Fuentes Científicas APA 7</div>
+            </div>
+
+            <!-- Columna Diagrama Interactivo Animado de la Arquitectura Híbrida -->
+            <div class="lg:col-span-7 glass-card p-6 md:p-8 rounded-2xl relative overflow-hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h3 class="text-base font-bold text-white">Arquitectura Híbrida Distribuida (Azure + PC Local)</h3>
+                        <p class="text-xs text-slate-400">Comunicación privada mediante VPN Tailscale sin exponer puertos internos</p>
+                    </div>
+                    <span class="text-[11px] mono bg-emerald-950 text-emerald-300 border border-emerald-700/50 px-2.5 py-1 rounded-md">
+                        2 Nodos • Canal Cifrado
+                    </span>
+                </div>
+
+                <!-- Esquema Visual Animado -->
+                <div class="grid md:grid-cols-3 gap-4 items-stretch relative">
+                    <!-- Nodo 1: Clientes -->
+                    <div class="bg-slate-900/90 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="text-[11px] mono text-sky-400 font-bold mb-1">ZONA PÚBLICA</div>
+                            <div class="text-sm font-bold text-white mb-2">🌐 Clientes Web</div>
+                            <p class="text-xs text-slate-400 mb-3">Navegador HTML5, CSS3 y JS.</p>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div class="bg-slate-800/90 p-2 rounded text-slate-200">👤 <strong>Usuario:</strong> CU-01 (Consultar IA) y CU-03 (MCP lectura)</div>
+                                <div class="bg-slate-800/90 p-2 rounded text-slate-200">🔐 <strong>Admin:</strong> CU-04 (Login) y CU-02 (Gestión PDF)</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] mono text-emerald-400 flex items-center justify-between">
+                            <span>HTTPS Público</span>
+                            <span>TCP 443 →</span>
+                        </div>
+                    </div>
+
+                    <!-- Nodo 2: Azure MATTEO-01 -->
+                    <div class="bg-gradient-to-b from-blue-950/70 to-slate-900/90 border border-blue-500/40 p-4 rounded-xl flex flex-col justify-between shadow-lg shadow-blue-950/30">
+                        <div>
+                            <div class="text-[11px] mono text-blue-300 font-bold mb-1">NODO NUBE • AZURE IaaS</div>
+                            <div class="text-sm font-bold text-white mb-1">☁️ VM MATTEO-01</div>
+                            <div class="text-[11px] mono text-slate-400 mb-3">172.16.0.4 • Win Server 2022 • 2 vCPU / 8 GiB</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div class="bg-slate-900/90 border border-slate-700/70 p-2 rounded"><strong>IIS Proxy Inverso:</strong> Terminación TLS (:443)</div>
+                                <div class="bg-slate-900/90 border border-slate-700/70 p-2 rounded"><strong>Spring Boot (:8080):</strong> Arquitectura Hexagonal + Spring Security (BCrypt)</div>
+                                <div class="bg-slate-900/90 border border-slate-700/70 p-2 rounded"><strong>Servidor MCP:</strong> Herramientas autorizadas de solo lectura</div>
+                                <div class="bg-slate-900/90 border border-slate-700/70 p-2 rounded"><strong>Datos:</strong> <code class="mono">PDF</code> + <code class="mono">metadata.json</code></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-blue-900/60 text-[11px] mono text-sky-300 flex items-center justify-between">
+                            <span>VPN Tailscale</span>
+                            <span>↔ Cifrado</span>
+                        </div>
+                    </div>
+
+                    <!-- Nodo 3: PC Local MATTEOXPC -->
+                    <div class="bg-gradient-to-b from-indigo-950/70 to-slate-900/90 border border-indigo-500/40 p-4 rounded-xl flex flex-col justify-between shadow-lg shadow-indigo-950/30">
+                        <div>
+                            <div class="text-[11px] mono text-indigo-300 font-bold mb-1">NODO IA LOCAL • GPU</div>
+                            <div class="text-sm font-bold text-white mb-1">🖥️ MATTEOXPC</div>
+                            <div class="text-[11px] mono text-slate-400 mb-3">i7-14700F • 64 GB RAM • RTX 5070 Ti (16 GB)</div>
+                            <div class="space-y-1.5 text-[11px]">
+                                <div class="bg-slate-900/90 border border-slate-700/70 p-2 rounded"><strong>FastAPI (:8000 privado):</strong> Contrato JSON con <code class="mono">PythonAiAdapter</code></div>
+                                <div class="bg-slate-900/90 border border-slate-700/70 p-2 rounded"><strong>ProjectSevera + PyTorch:</strong> Inferencia generativa y embeddings</div>
+                                <div class="bg-slate-900/90 border border-slate-700/70 p-2 rounded"><strong>Índice Vectorial RAG:</strong> Fragmentos sincronizados y búsqueda densa</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-indigo-900/60 text-[11px] mono text-indigo-300 flex items-center justify-between">
+                            <span>Sin exposición a Internet</span>
+                            <span>🔒 FW-03</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Línea animada SVG de extremo a extremo -->
+                <div class="mt-5 bg-slate-950/70 border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <span class="text-slate-400">Trazabilidad Arquitectónica:</span>
+                    <span class="mono text-sky-300 text-[11px]">Objetivo → Caso de Uso (CU) → Requerimiento (RF/RNF) → Componente Hexagonal → Prueba (PF/PN)</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Resumen de Arquitectura en 3 Bloques -->
-    <section class="max-w-6xl mx-auto px-6 pb-16">
-        <div class="grid md:grid-cols-3 gap-6">
-            <div class="glass-card p-6 rounded-xl">
-                <h3 class="text-lg font-bold text-blue-400 mb-2">Backend Hexagonal (Azure)</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">
-                    Desplegado en la VM <code>MATTEO-01</code> (Windows Server 2022) con <strong>Java / Spring Boot</strong>, estructurado en capas <em>Domain</em>, <em>Application</em> e <em>Infrastructure</em>, con acceso público de consulta y administración protegida.
-                </p>
+    <!-- =====================================================
+         EXPLORADOR TÉCNICO INTERACTIVO POR PESTAÑAS (5 TABS)
+    ====================================================== -->
+    <section id="explorador" class="max-w-7xl mx-auto px-6 py-12 reveal">
+        <div class="text-center mb-8">
+            <span class="text-xs font-bold uppercase tracking-wider text-sky-400 mono">Especificaciones Consolidada del Esqueleto</span>
+            <h2 class="text-3xl font-extrabold mt-1">Explorador Técnico Interactivo</h2>
+            <p class="text-sm text-slate-400 mt-2">Navega por las decisiones de ingeniería aprobadas para la implementación en la Unidad III.</p>
+        </div>
+
+        <!-- Botones de Pestañas -->
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <button onclick="switchTab('tab-req', this)" class="tab-btn active glass-card px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 transition">
+                📋 1. Requerimientos (CU / RF / RNF)
+            </button>
+            <button onclick="switchTab('tab-arq', this)" class="tab-btn glass-card px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 transition">
+                🧩 2. Arquitectura Hexagonal
+            </button>
+            <button onclick="switchTab('tab-red', this)" class="tab-btn glass-card px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 transition">
+                🌐 3. Infraestructura y Red (Firewall)
+            </button>
+            <button onclick="switchTab('tab-seg', this)" class="tab-btn glass-card px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 transition">
+                🛡️ 4. Seguridad y Operación
+            </button>
+            <button onclick="switchTab('tab-pru', this)" class="tab-btn glass-card px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 transition">
+                🧪 5. Implementación, Pruebas y Costos
+            </button>
+        </div>
+
+        <!-- TAB 1: REQUERIMIENTOS -->
+        <div id="tab-req" class="tab-panel space-y-6">
+            <div class="grid md:grid-cols-4 gap-4">
+                <div class="searchable-item glass-card p-5 rounded-xl" data-category="Caso de Uso">
+                    <span class="mono text-xs text-sky-400 font-bold">CU-01 • Usuario / Admin</span>
+                    <h4 class="font-bold text-white mt-1">Consultar IA</h4>
+                    <p class="text-xs text-slate-400 mt-1">Pregunta en lenguaje natural; recuperación RAG y respuesta acompañada de referencias o abstención.</p>
+                </div>
+                <div class="searchable-item glass-card p-5 rounded-xl" data-category="Caso de Uso">
+                    <span class="mono text-xs text-sky-400 font-bold">CU-02 • Administrador</span>
+                    <h4 class="font-bold text-white mt-1">Gestionar documentación</h4>
+                    <p class="text-xs text-slate-400 mt-1">Carga, listado y eliminación de manuales PDF en Azure con sincronización del índice en la PC local.</p>
+                </div>
+                <div class="searchable-item glass-card p-5 rounded-xl" data-category="Caso de Uso">
+                    <span class="mono text-xs text-sky-400 font-bold">CU-03 • Extiende CU-01</span>
+                    <h4 class="font-bold text-white mt-1">Consultar herramientas MCP</h4>
+                    <p class="text-xs text-slate-400 mt-1">Invoca herramientas previamente autorizadas de solo lectura cuando la consulta requiere un dato operativo.</p>
+                </div>
+                <div class="searchable-item glass-card p-5 rounded-xl" data-category="Caso de Uso">
+                    <span class="mono text-xs text-sky-400 font-bold">CU-04 • Precondición CU-02</span>
+                    <h4 class="font-bold text-white mt-1">Iniciar sesión</h4>
+                    <p class="text-xs text-slate-400 mt-1">Autenticación administrativa con Spring Security en memoria y BCrypt previa a gestionar documentos.</p>
+                </div>
             </div>
-            <div class="glass-card p-6 rounded-xl">
-                <h3 class="text-lg font-bold text-indigo-400 mb-2">Motor IA y RAG (Nodo Local)</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">
-                    Ejecutado en el equipo local <code>MATTEOXPC</code> (RTX 5070 Ti) mediante <strong>FastAPI, PyTorch y ProjectSevera</strong>, manteniendo el índice vectorial sincronizado con los PDF y <code>metadata.json</code>.
-                </p>
+
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- 8 Requerimientos Funcionales -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-sky-400 mb-4">Requerimientos Funcionales (RF-01 a RF-08)</h3>
+                    <div class="space-y-2.5 text-xs">
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Requerimiento Funcional"><strong class="mono text-sky-400">RF-01 (CU-01):</strong> Permitir consultas en lenguaje natural sin exigir registro de usuario.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Requerimiento Funcional"><strong class="mono text-sky-400">RF-02 (CU-01):</strong> Recuperar contenido documental mediante RAG y generar respuestas acompañadas de referencias a sus fuentes.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Requerimiento Funcional"><strong class="mono text-sky-400">RF-03 (CU-01):</strong> Informar explícitamente cuando no exista documentación suficiente para responder la consulta (abstención).</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Requerimiento Funcional"><strong class="mono text-sky-400">RF-04 (CU-02):</strong> Permitir al administrador cargar archivos PDF y consultar el listado de documentos disponibles.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Requerimiento Funcional"><strong class="mono text-sky-400">RF-05 (CU-02):</strong> Permitir al administrador retirar documentos y solicitar la eliminación de sus fragmentos del índice RAG.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Requerimiento Funcional"><strong class="mono text-sky-400">RF-06 (CU-02):</strong> Procesar los documentos incorporados para habilitar su consulta y mostrar el estado de procesamiento (<code class="mono">metadata.json</code>).</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Requerimiento Funcional"><strong class="mono text-sky-400">RF-07 (CU-03):</strong> Consultar herramientas MCP previamente autorizadas y presentar sus resultados dentro del flujo de asistencia.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Requerimiento Funcional"><strong class="mono text-sky-400">RF-08 (CU-04):</strong> Permitir al administrador iniciar y cerrar sesión mediante credenciales.</div>
+                    </div>
+                </div>
+
+                <!-- 11 Requerimientos No Funcionales ISO/IEC 25010 -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-indigo-400 mb-4">Requerimientos No Funcionales (RNF-01 a RNF-11 • ISO/IEC 25010)</h3>
+                    <div class="space-y-2 text-xs max-h-[420px] overflow-y-auto pr-2">
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-01 (Seguridad / Autenticidad):</strong> Rechazar 10 de 10 operaciones administrativas ejecutadas sin autenticación válida.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-02 (Seguridad / Resistencia):</strong> Rechazar 10 de 10 invocaciones MCP no autorizadas de una batería controlada.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-03 (Seguridad / Integridad):</strong> Rechazar archivos de prueba inválidos o que excedan el tamaño configurado.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-04 (Fiabilidad / Tolerancia a fallos):</strong> Informar en ≤ 10 s una indisponibilidad simulada de Severa (5 ensayos) sin fabricar respuesta.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-05 (Fiabilidad / Recuperabilidad):</strong> Ejecutar respaldos diarios de PDF y <code class="mono">metadata.json</code> y completar una restauración de prueba.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-06 (Eficiencia / Tiempo):</strong> Completar al menos 18 de 20 consultas RAG en ≤ 60 s con 1 usuario concurrente.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-07 (Usabilidad / Operabilidad):</strong> Consultar y visualizar respuesta con fuente mediante ≤ 3 acciones principales en la interfaz.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-08 (Mantenibilidad / Modificabilidad):</strong> Sustituir <code class="mono">PythonAiAdapter</code> por un adaptador simulado sin modificar <code class="mono">Domain</code> ni casos de uso.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-09 (Compatibilidad / Interoperabilidad):</strong> Superar 10 intercambios válidos de solicitud-respuesta según contrato Java–Python.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-10 (Flexibilidad / Escalabilidad):</strong> Incorporar y consultar al menos 20 PDF de prueba sin modificar el código fuente.</div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800" data-category="RNF Calidad"><strong class="mono text-indigo-400">RNF-11 (Adecuación funcional / Corrección):</strong> Al menos 16 de 20 respuestas de referencia deben corresponder a evidencia documental identificada.</div>
+                    </div>
+                </div>
             </div>
-            <div class="glass-card p-6 rounded-xl">
-                <h3 class="text-lg font-bold text-sky-400 mb-2">MCP y Conectividad Segura</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">
-                    Interoperabilidad mediante <strong>Model Context Protocol</strong> limitada a herramientas autorizadas de solo lectura y comunicación privada cifrada entre Azure y la PC local con <strong>Tailscale</strong>.
+        </div>
+
+        <!-- TAB 2: ARQUITECTURA HEXAGONAL -->
+        <div id="tab-arq" class="tab-panel hidden space-y-6">
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="searchable-item glass-card p-6 rounded-2xl border-t-4 border-t-sky-400" data-category="Arquitectura Hexagonal">
+                    <div class="text-xs mono text-sky-400 font-bold mb-1">CAPA 01 • NÚCLEO</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Domain</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        Contiene las entidades y objetos de negocio puros, libres de dependencias hacia frameworks web, bases vectoriales o librerías de IA:
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-1.5 mono">
+                        <li>• Document (Entidad documental)</li>
+                        <li>• ConversationContext (Contexto)</li>
+                    </ul>
+                </div>
+                <div class="searchable-item glass-card p-6 rounded-2xl border-t-4 border-t-indigo-400" data-category="Arquitectura Hexagonal">
+                    <div class="text-xs mono text-indigo-400 font-bold mb-1">CAPA 02 • ORQUESTACIÓN</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Application / Service</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        Implementa los casos de uso del sistema y define los puertos (interfaces) que desacoplan las reglas de aplicación:
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-1.5 mono">
+                        <li>• AskQuestionUseCase (CU-01)</li>
+                        <li>• ManageDocumentUseCase (CU-02)</li>
+                        <li>• QueryMcpToolUseCase (CU-03)</li>
+                        <li>• AiProcessingPort «port»</li>
+                        <li>• DocumentRepositoryPort «port»</li>
+                        <li>• McpToolPort «port»</li>
+                    </ul>
+                </div>
+                <div class="searchable-item glass-card p-6 rounded-2xl border-t-4 border-t-purple-400" data-category="Arquitectura Hexagonal">
+                    <div class="text-xs mono text-purple-400 font-bold mb-1">CAPA 03 • ADAPTADORES</div>
+                    <h3 class="text-lg font-bold text-white mb-2">Infrastructure (Entrada / Salida)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        Conecta la aplicación con el exterior mediante controladores web y adaptadores concretos reemplazables:
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-1.5 mono">
+                        <li>• ChatController &amp; DocumentController</li>
+                        <li>• Spring Security Login ADMIN (BCrypt)</li>
+                        <li>• PythonAiAdapter (hacia FastAPI)</li>
+                        <li>• McpClientAdapter (hacia Servidor MCP)</li>
+                        <li>• FileDocumentRepositoryAdapter</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: INFRAESTRUCTURA Y RED -->
+        <div id="tab-red" class="tab-panel hidden space-y-6">
+            <div class="grid lg:grid-cols-2 gap-6">
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-sky-400 mb-4">Dimensionamiento de Nodos y Direccionamiento IP</h3>
+                    <div class="space-y-3 text-xs">
+                        <div class="searchable-item bg-slate-900/80 p-3.5 rounded-xl border border-slate-800" data-category="Infraestructura y Red">
+                            <div class="font-bold text-white">Servidor Nube: Azure MATTEO-01</div>
+                            <div class="text-slate-300 mt-1">Windows Server 2022 Datacenter • Standard B2as v2 (2 vCPU, 8 GiB RAM) • IP Privada: <code class="mono text-sky-400">172.16.0.4</code> (<code class="mono">vnet-chilecentral-1 / snet-chilecentral-1</code>). Aloja IIS (TCP 443), Spring Boot (<code class="mono">127.0.0.1:8080</code>), Servidor MCP local, PDF y <code class="mono">metadata.json</code>.</div>
+                        </div>
+                        <div class="searchable-item bg-slate-900/80 p-3.5 rounded-xl border border-slate-800" data-category="Infraestructura y Red">
+                            <div class="font-bold text-white">Nodo Local de IA: MATTEOXPC</div>
+                            <div class="text-slate-300 mt-1">Windows • Procesador Intel Core i7-14700F • 64 GB RAM • GPU NVIDIA RTX 5070 Ti (16 GB VRAM). Aloja Python FastAPI (TCP 8000 privado por Tailscale), PyTorch, ProjectSevera e índice vectorial RAG.</div>
+                        </div>
+                        <div class="searchable-item bg-slate-900/80 p-3.5 rounded-xl border border-slate-800" data-category="Infraestructura y Red">
+                            <div class="font-bold text-white">Justificación de Segmentación (Sin VLAN IEEE 802.1Q físicas)</div>
+                            <div class="text-slate-300 mt-1">El aislamiento se ejecuta mediante Azure Virtual Network, políticas NSG y el túnel criptográfico punto a punto de Tailscale (basado en WireGuard), evitando declarar switches o VLAN físicas inexistentes.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-rose-400 mb-4">Política de Firewall y Acceso Remoto (FW-01 a FW-06)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/90">
+                                    <th class="p-2.5">Regla</th>
+                                    <th class="p-2.5">Origen</th>
+                                    <th class="p-2.5">Destino</th>
+                                    <th class="p-2.5">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr class="searchable-item" data-category="Regla Firewall"><td class="p-2.5 mono font-bold text-sky-400">FW-01</td><td class="p-2.5">Internet</td><td class="p-2.5">IIS Azure TCP 443</td><td class="p-2.5 text-emerald-400 font-semibold">Permitir HTTPS</td></tr>
+                                <tr class="searchable-item" data-category="Regla Firewall"><td class="p-2.5 mono font-bold text-sky-400">FW-02</td><td class="p-2.5">Internet</td><td class="p-2.5">Spring Boot 8080 y MCP</td><td class="p-2.5 text-rose-400 font-semibold">Denegar / No publicar</td></tr>
+                                <tr class="searchable-item" data-category="Regla Firewall"><td class="p-2.5 mono font-bold text-sky-400">FW-03</td><td class="p-2.5">Internet</td><td class="p-2.5">FastAPI PC TCP 8000</td><td class="p-2.5 text-rose-400 font-semibold">Denegar / No publicar</td></tr>
+                                <tr class="searchable-item" data-category="Regla Firewall"><td class="p-2.5 mono font-bold text-sky-400">FW-04</td><td class="p-2.5">Tailscale Azure</td><td class="p-2.5">FastAPI PC TCP 8000</td><td class="p-2.5 text-emerald-400 font-semibold">Permitir nodo autorizado</td></tr>
+                                <tr class="searchable-item" data-category="Regla Firewall"><td class="p-2.5 mono font-bold text-sky-400">FW-05</td><td class="p-2.5">Equipo Admin</td><td class="p-2.5">RDP Azure TCP 3389</td><td class="p-2.5 text-amber-400 font-semibold">Acceso restringido</td></tr>
+                                <tr class="searchable-item" data-category="Regla Firewall"><td class="p-2.5 mono font-bold text-sky-400">FW-06</td><td class="p-2.5">Otros accesos</td><td class="p-2.5">Servicios internos</td><td class="p-2.5 text-rose-400 font-semibold">Denegar por defecto</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SEGURIDAD Y OPERACIÓN -->
+        <div id="tab-seg" class="tab-panel hidden space-y-6">
+            <div class="grid lg:grid-cols-2 gap-6">
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-rose-400 mb-3">Matriz de Riesgos Identificados (R-01 a R-07)</h3>
+                    <div class="space-y-2 text-xs">
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Riesgo Seguridad"><span><strong class="mono text-rose-400">R-01:</strong> Acceso no autorizado a documentos y funciones ADMIN</span><span class="mono text-rose-400 font-bold">Alto (P2×I3)</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Riesgo Seguridad"><span><strong class="mono text-rose-400">R-02:</strong> Prompt injection indirecta en PDF y fragmentos RAG</span><span class="mono text-rose-400 font-bold">Alto (P2×I3)</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Riesgo Seguridad"><span><strong class="mono text-rose-400">R-03:</strong> Invocación indebida de herramientas MCP</span><span class="mono text-rose-400 font-bold">Alto (P2×I3)</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Riesgo Seguridad"><span><strong class="mono text-amber-400">R-04:</strong> Carga de archivos no válidos o dañinos</span><span class="mono text-amber-400 font-bold">Medio (P2×I2)</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Riesgo Seguridad"><span><strong class="mono text-rose-400">R-05:</strong> Exposición de Python/MCP u otros servicios internos</span><span class="mono text-rose-400 font-bold">Alto (P2×I3)</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Riesgo Seguridad"><span><strong class="mono text-amber-400">R-06:</strong> Pérdida, corrupción o borrado accidental de PDF/JSON</span><span class="mono text-amber-400 font-bold">Medio (P2×I2)</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Riesgo Seguridad"><span><strong class="mono text-rose-400">R-07:</strong> Caída de MATTEOXPC o interrupción de VPN Tailscale</span><span class="mono text-rose-400 font-bold">Alto (P3×I2)</span></div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-emerald-400 mb-3">Estrategias de Mitigación (E-01 a E-05) y Respaldo</h3>
+                    <div class="space-y-2.5 text-xs">
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Control Seguridad"><strong class="mono text-emerald-400">E-01 (R-01):</strong> Login ADMIN con Spring Security; usuario único en memoria; hash BCrypt; autorización de carga/eliminación.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Control Seguridad"><strong class="mono text-emerald-400">E-02 (R-02, R-04):</strong> Validar extensión, tipo y tamaño de PDF; separar documentos de instrucciones del sistema; abstención ante duda.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Control Seguridad"><strong class="mono text-emerald-400">E-03 (R-02, R-03):</strong> Autorizar en Java y en el servidor MCP una lista corta de herramientas de solo lectura con validación de parámetros.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Control Seguridad"><strong class="mono text-emerald-400">E-04 (R-05):</strong> HTTPS público, puertos internos privados, NSG, Windows Firewall, Tailscale y límites de consultas públicas.</div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Control Seguridad"><strong class="mono text-emerald-400">E-05 (R-06, R-07):</strong> Respaldos diarios externos de PDF y <code class="mono">metadata.json</code> (7 copias de retención), logs sin secretos y aviso de fallo en ≤ 10 s.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: IMPLEMENTACIÓN, PRUEBAS Y FACTIBILIDAD -->
+        <div id="tab-pru" class="tab-panel hidden space-y-6">
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Cronograma 4 fases -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-sky-400 mb-3">Cronograma de Implementación</h3>
+                    <div class="space-y-3 text-xs">
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Implementación">
+                            <span class="mono text-sky-400 font-bold">Fase 1 (16–22 nov. 2026): Preparación</span>
+                            <p class="text-slate-300 mt-1">Validar Azure MATTEO-01; configurar HTTPS y Tailscale; publicar FastAPI en MATTEOXPC.</p>
+                        </div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Implementación">
+                            <span class="mono text-indigo-400 font-bold">Fase 2 (23–29 nov. 2026): Núcleo RAG</span>
+                            <p class="text-slate-300 mt-1">Carga/listado/baja de PDF, <code class="mono">metadata.json</code>, indexación en ProjectSevera y consultas con citas.</p>
+                        </div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Implementación">
+                            <span class="mono text-purple-400 font-bold">Fase 3 (30 nov.–3 dic. 2026): Integración</span>
+                            <p class="text-slate-300 mt-1">Herramientas MCP solo lectura, login ADMIN BCrypt, reglas de acceso, logs y copias externas.</p>
+                        </div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Implementación">
+                            <span class="mono text-emerald-400 font-bold">Fase 4 (4–6 dic. 2026): Pruebas</span>
+                            <p class="text-slate-300 mt-1">Ejecución de pruebas PF-01..08 y PN-01..11, restauración, prompt injection y evidencias.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Síntesis del Plan de Pruebas -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-indigo-400 mb-3">Protocolo de Pruebas (PF y PN)</h3>
+                    <div class="space-y-2.5 text-xs text-slate-300">
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Plan de Pruebas">
+                            <strong class="text-white">8 Pruebas Funcionales (PF-01 a PF-08):</strong> Verifican consulta sin login (<code class="mono">PF-01</code>), respuesta con cita (<code class="mono">PF-02</code>), abstención fuera del corpus (<code class="mono">PF-03</code>), carga/eliminación/estado de PDF (<code class="mono">PF-04..06</code>), lectura MCP (<code class="mono">PF-07</code>) y sesión ADMIN (<code class="mono">PF-08</code>).
+                        </div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Plan de Pruebas">
+                            <strong class="text-white">11 Pruebas de Calidad (PN-01 a PN-11):</strong> Evalúan 10/10 bloqueos sin sesión (<code class="mono">PN-01</code>), 10/10 bloqueos MCP prohibidos (<code class="mono">PN-02</code>), aviso de desconexión ≤ 10 s (<code class="mono">PN-04</code>), 18/20 consultas ≤ 60 s (<code class="mono">PN-06</code>) y ≥ 16/20 respuestas fieles (<code class="mono">PN-11</code>).
+                        </div>
+                        <div class="searchable-item bg-slate-900/80 p-3 rounded-lg border border-slate-800" data-category="Plan de Pruebas">
+                            <strong class="text-white">Evaluación RAG y Seguridad:</strong> Batería de 20 consultas (directas, códigos exactos, ambiguas y fuera de corpus) + PDF con <em>indirect prompt injection</em>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Factibilidad Económica en Soles -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-emerald-400 mb-3">Factibilidad Económica (Supuestos S/)</h3>
+                    <p class="text-xs text-slate-400 mb-3">Hipótesis presupuestarias explícitas (TC S/ 3,423/USD; electricidad S/ 0,80/kWh; PC preexistente sin compra de hardware):</p>
+                    <div class="space-y-2 text-xs">
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Factibilidad Económica"><span>Azure VM (~US$ 100/mes)</span><span class="mono font-bold text-sky-400">S/ 342,29</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Factibilidad Económica"><span>Electricidad media (0,9 kW × 720 h)</span><span class="mono font-bold text-sky-400">S/ 518,40</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between" data-category="Factibilidad Económica"><span>Mantenimiento equiv. (8 h × S/ 15,63)</span><span class="mono font-bold text-sky-400">S/ 125,00</span></div>
+                        <div class="searchable-item bg-emerald-950/60 p-3 rounded-lg border border-emerald-600/40 flex justify-between" data-category="Factibilidad Económica"><span class="font-bold text-white">Costo mensual medio estimado</span><span class="mono font-bold text-emerald-400">S/ 985,69</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between text-[11px] text-slate-400" data-category="Factibilidad Económica"><span>Rango mensual (0,6 a 1,2 kW)</span><span class="mono">S/ 812,89 – S/ 1.158,49</span></div>
+                        <div class="searchable-item bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 flex justify-between text-[11px] text-slate-400" data-category="Factibilidad Económica"><span>Desarrollo inicial equiv. (60 h)</span><span class="mono">S/ 937,50</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         MAPA DESPLEGABLE DE LAS 14 SECCIONES DEL DOCUMENTO
+    ====================================================== -->
+    <section id="secciones-14" class="max-w-7xl mx-auto px-6 py-12 reveal">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-sky-400 mono">Estructura Oficial del Informe</span>
+                <h2 class="text-3xl font-extrabold mt-1">Síntesis de los 14 Apartados del Documento</h2>
+                <p class="text-sm text-slate-400 mt-1">Haz clic en cualquier sección para desplegar su resumen ejecutivo y las fuentes que la fundamentan.</p>
+            </div>
+            <button onclick="toggleAllAccordions()" class="text-xs mono bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 px-4 py-2 rounded-lg transition">
+                ↕ Expandir / Contraer Todas
+            </button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4" id="accordionContainer">
+            <!-- 01 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">01.</span>Resumen Ejecutivo</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Propuesta de aplicación web de soporte técnico documental basada en RAG (Lewis et al., 2020) y MCP (Anthropic, 2024; Model Context Protocol, 2025), desplegada entre Azure (Spring Boot Hexagonal) y el nodo local MATTEOXPC (ProjectSevera / PyTorch).
                 </p>
+            </details>
+            <!-- 02 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">02.</span>Planteamiento del Problema</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Analiza la dispersión de manuales técnicos, la brecha léxica usuario-documento (Robertson y Zaragoza, 2009; Karpukhin et al., 2020), las alucinaciones en LLMs puros (Ji et al., 2023; Shuster et al., 2021) y la justificación de combinar RAG con MCP controlando el riesgo de inyección indirecta (Greshake et al., 2023; Hou et al., 2026).
+                </p>
+            </details>
+            <!-- 03 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">03.</span>Objetivos (General y Específicos)</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Define el objetivo general y 4 objetivos específicos: (1) gestión documental PDF, (2) consultas RAG con referencias y abstención (Asai et al., 2024; Yan et al., 2024), (3) integración de herramientas MCP de solo lectura y (4) definición de arquitectura, seguridad y pruebas para la Unidad III.
+                </p>
+            </details>
+            <!-- 04 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">04.</span>Requerimientos Funcionales y No Funcionales</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Especifica los 4 casos de uso (<code class="mono">CU-01</code> a <code class="mono">CU-04</code>, Figura 1), los 8 requerimientos funcionales (<code class="mono">RF-01</code> a <code class="mono">RF-08</code>) y los 11 requerimientos no funcionales (<code class="mono">RNF-01</code> a <code class="mono">RNF-11</code>) estructurados bajo la norma ISO/IEC 25010:2023.
+                </p>
+            </details>
+            <!-- 05 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">05.</span>Diseño de la Arquitectura</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Desarrolla la arquitectura lógica hexagonal en Java/Spring Boot (Figura 2, Cockburn, 2005), la arquitectura física entre Azure y la PC local (Figura 3, Modran, 2025), la tabla de componentes y el flujo de información (Figura 4).
+                </p>
+            </details>
+            <!-- 06 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">06.</span>Diseño de Infraestructura</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Detalla la máquina virtual Azure <code class="mono">MATTEO-01</code> (Windows Server 2022, 2 vCPU, 8 GiB RAM) y el nodo local <code class="mono">MATTEOXPC</code> (i7-14700F, 64 GB RAM, RTX 5070 Ti 16 GB VRAM), el almacenamiento en PDF + <code class="mono">metadata.json</code> y las restricciones de capacidad.
+                </p>
+            </details>
+            <!-- 07 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">07.</span>Diseño de Red</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Presenta la topología de red propuesta (Figura 5), el direccionamiento IP (<code class="mono">172.16.0.4</code>, loopback <code class="mono">127.0.0.1:8080</code>, FastAPI <code class="mono">:8000</code> por Tailscale), la justificación del aislamiento lógico sin VLAN físicas y las 6 reglas de firewall (<code class="mono">FW-01</code> a <code class="mono">FW-06</code>).
+                </p>
+            </details>
+            <!-- 08 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">08.</span>Diseño de Seguridad</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Evalúa los 7 riesgos preliminares (<code class="mono">R-01</code> a <code class="mono">R-07</code>), define las 5 estrategias de mitigación (<code class="mono">E-01</code> a <code class="mono">E-05</code>), el diagrama de fronteras de seguridad (Figura 6), la matriz de permisos por identidad, el respaldo diario y la auditoría de eventos.
+                </p>
+            </details>
+            <!-- 09 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">09.</span>Diseño Operativo</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Establece los 4 roles funcionales del equipo, el procedimiento operativo de verificación y arranque, las rutinas semanales de mantenimiento y el protocolo de respuesta y recuperación ante 5 incidentes operativos.
+                </p>
+            </details>
+            <!-- 10 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">10.</span>Plan de Implementación</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Organiza el despliegue de la Unidad III en 4 fases (del 16 de noviembre al 6 de diciembre de 2026): Preparación, Núcleo RAG, Integración MCP/Seguridad y Pruebas integrales, detallando dependencias y criterios de cierre.
+                </p>
+            </details>
+            <!-- 11 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">11.</span>Plan de Pruebas</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Define las 8 pruebas funcionales (<code class="mono">PF-01</code> a <code class="mono">PF-08</code>), las 11 pruebas de atributos de calidad (<code class="mono">PN-01</code> a <code class="mono">PN-11</code>) y el protocolo de evaluación sobre 20 consultas de referencia y documentos con <em>prompt injection</em> (Es et al., 2024; Saad-Falcon et al., 2024).
+                </p>
+            </details>
+            <!-- 12 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">12.</span>Análisis de Factibilidad</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Evalúa la factibilidad técnica (reutilización de hardware existente), económica en soles (escenario medio mensual de S/ 985,69; rango S/ 812,89–1.158,49; desarrollo equivalente S/ 937,50) y operativa.
+                </p>
+            </details>
+            <!-- 13 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">13.</span>Conclusiones</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Sintetiza las decisiones arquitectónicas consolidadas, la separación entre RAG y MCP, las ventajas y restricciones del esquema híbrido Azure + PC local, y los compromisos verificables para la Unidad III.
+                </p>
+            </details>
+            <!-- 14 -->
+            <details class="searchable-item glass-card rounded-xl p-4 group cursor-pointer" data-category="Sección del Informe">
+                <summary class="font-bold text-sm text-white flex justify-between items-center list-none">
+                    <span><span class="text-sky-400 mono mr-2">14.</span>Referencias Bibliográficas (APA 7)</span>
+                    <span class="text-slate-400 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <p class="text-xs text-slate-300 mt-3 leading-relaxed border-t border-slate-800 pt-3">
+                    Reúne 58 fuentes científicas y normas técnicas verificadas en formato APA 7.ª edición (77,6 % entre 2021 y 2026) con correspondencia exacta 1:1 frente a las citas del documento.
+                </p>
+            </details>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         MUESTRA DE REFERENCIAS CLAVE APA 7 (FILTRABLES)
+    ====================================================== -->
+    <section id="referencias" class="max-w-7xl mx-auto px-6 py-12 reveal">
+        <div class="glass-card p-8 rounded-2xl">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-sky-400 mono">Fundamentación Científica (Unidad I → Unidad II)</span>
+                    <h2 class="text-2xl font-bold text-white mt-1">Ejes Bibliográficos Principales (APA 7.ª Edición)</h2>
+                </div>
+                <span class="text-xs mono bg-blue-950 text-sky-300 border border-sky-800 px-3 py-1.5 rounded-lg">
+                    58 referencias completas en el documento descargable
+                </span>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                <div class="searchable-item bg-slate-900/80 border border-slate-800 p-4 rounded-xl" data-category="Referencia APA 7">
+                    <div class="text-sky-400 font-bold mb-1">Fundamentos RAG y Recuperación</div>
+                    <p class="text-slate-300 leading-relaxed">Lewis et al. (2020), Guu et al. (2020), Karpukhin et al. (2020), Robertson y Zaragoza (2009), Khattab y Zaharia (2020), Malkov y Yashunin (2020), Johnson et al. (2019), Gao et al. (2024), Asai et al. (2024), Yan et al. (2024), Śmigielski et al. (2026).</p>
+                </div>
+                <div class="searchable-item bg-slate-900/80 border border-slate-800 p-4 rounded-xl" data-category="Referencia APA 7">
+                    <div class="text-indigo-400 font-bold mb-1">Soporte Técnico y Diálogo</div>
+                    <p class="text-slate-300 leading-relaxed">Toro Isaza et al. (2025), González Juclà et al. (2024), Xu et al. (2024), Ahmed et al. (2023), Roy et al. (2024), Barrionuevo-Valenzuela et al. (2025), Feng et al. (2020, 2021), Chen et al. (2024b).</p>
+                </div>
+                <div class="searchable-item bg-slate-900/80 border border-slate-800 p-4 rounded-xl" data-category="Referencia APA 7">
+                    <div class="text-purple-400 font-bold mb-1">Model Context Protocol y Agentes</div>
+                    <p class="text-slate-300 leading-relaxed">Anthropic (2024), Model Context Protocol (2025), Hou et al. (2026), Modran (2025), Hasan et al. (2025), Schick et al. (2023), Yao et al. (2023, 2025), Qin et al. (2024), Li et al. (2023), Ghafourian et al. (2025).</p>
+                </div>
+                <div class="searchable-item bg-slate-900/80 border border-slate-800 p-4 rounded-xl" data-category="Referencia APA 7">
+                    <div class="text-rose-400 font-bold mb-1">Seguridad e Inyección de Prompts</div>
+                    <p class="text-slate-300 leading-relaxed">Greshake et al. (2023), Zhan et al. (2024), Debenedetti et al. (2024), ISO/IEC (2022 - ISO 27005), NIST (2020 - SP 800-53 Rev. 5), VMware (2024 - Spring Security), Donenfeld (2017 - WireGuard).</p>
+                </div>
+                <div class="searchable-item bg-slate-900/80 border border-slate-800 p-4 rounded-xl" data-category="Referencia APA 7">
+                    <div class="text-emerald-400 font-bold mb-1">Evaluación, Citas y Alucinaciones</div>
+                    <p class="text-slate-300 leading-relaxed">Es et al. (2024 - RAGAS), Saad-Falcon et al. (2024 - ARES), Gao et al. (2023b - ALCE), Friel et al. (2024 - RAGBench), Ribeiro et al. (2020 - CheckList), Ji et al. (2023), Shuster et al. (2021), Adlakha et al. (2024).</p>
+                </div>
+                <div class="searchable-item bg-slate-900/80 border border-slate-800 p-4 rounded-xl" data-category="Referencia APA 7">
+                    <div class="text-amber-400 font-bold mb-1">Arquitectura, Calidad e Infraestructura</div>
+                    <p class="text-slate-300 leading-relaxed">Cockburn (2005 - Arquitectura Hexagonal), ISO/IEC (2023 - ISO/IEC 25010:2023), Barnett et al. (2024 - 7 Failure Points in RAG), Microsoft Corporation (2024 - Azure IaaS &amp; NSG).</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 mt-10 py-10 text-center text-slate-500 text-sm px-6">
-        <p>Proyecto de Ingeniería de Sistemas - Universidad Privada de Tacna (2026)</p>
-        <p class="mt-2">Equipo: Matteo Cutipa, Milagros Condori, Mario Gómez, Emerson Pariguana, André Valdez.</p>
+    <footer class="border-t border-slate-800/80 bg-slate-950/70 mt-12 py-10 text-center text-slate-400 text-sm px-6">
+        <p class="font-bold text-slate-200">Proyecto de Ingeniería de Sistemas — Universidad Privada de Tacna (2026)</p>
+        <p class="mt-2 text-xs text-slate-400">
+            Equipo: Matteo Cutipa Peralta • Milagros Condori Acero • Mario Gómez Mamani • Emerson Pariguana Yujra • Geovani Lajo Zuela • André Valdez Fernández
+        </p>
+        <div class="mt-4">
+            <a href="https://github.com/Adi-upt/FUENTE-SOI" target="_blank" rel="noopener noreferrer" class="text-xs text-sky-400 hover:underline mono">
+                github.com/Adi-upt/FUENTE-SOI
+            </a>
+        </div>
     </footer>
 
+    <!-- Scripts de Interactividad: Tabs, Buscador Global, Acordeones y Scroll Reveal -->
+    <script>
+        // 1. Cambio de Pestañas (Tabs)
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.remove('hidden');
+            btnElement.classList.add('active');
+        }
+
+        // 2. Expandir / Contraer todos los acordeones de las 14 secciones
+        let allExpanded = false;
+        function toggleAllAccordions() {
+            allExpanded = !allExpanded;
+            document.querySelectorAll('#accordionContainer details').forEach(det => {
+                det.open = allExpanded;
+            });
+        }
+
+        // 3. Buscador Global en Vivo
+        function quickSearch(term) {
+            const input = document.getElementById('globalSearchInput');
+            input.value = term;
+            runGlobalSearch(term);
+        }
+
+        function runGlobalSearch(query) {
+            const resultsContainer = document.getElementById('globalSearchResults');
+            const badge = document.getElementById('searchCountBadge');
+            const q = query.trim().toLowerCase();
+
+            resultsContainer.innerHTML = '';
+            if (!q) {
+                resultsContainer.classList.add('hidden');
+                badge.classList.add('hidden');
+                return;
+            }
+
+            const items = document.querySelectorAll('.searchable-item');
+            let matches = 0;
+
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                const category = item.getAttribute('data-category') || 'Dato Técnico';
+                if (text.includes(q)) {
+                    matches++;
+                    const card = document.createElement('div');
+                    card.className = 'bg-slate-900/95 border border-sky-500/40 p-3.5 rounded-xl text-xs text-slate-200 shadow-md';
+                    card.innerHTML = `
+                        <div class="text-[10px] mono uppercase text-sky-400 font-bold mb-1">${category}</div>
+                        <div class="leading-relaxed">${item.innerText.replace(/\n+/g, ' — ')}</div>
+                    `;
+                    resultsContainer.appendChild(card);
+                }
+            });
+
+            badge.classList.remove('hidden');
+            badge.innerText = `${matches} resultado${matches === 1 ? '' : 's'}`;
+            resultsContainer.classList.remove('hidden');
+
+            if (matches === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="col-span-full text-center text-slate-400 py-4 text-xs">
+                        No se encontraron coincidencias para "<strong class="text-white">${query}</strong>". Prueba con RF-01, RNF-06, Tailscale, MATTEO-01, FW-01 o MCP.
+                    </div>
+                `;
+            }
+        }
+
+        // Atajo de teclado Ctrl + K para ir al buscador
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                const input = document.getElementById('globalSearchInput');
+                input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                input.focus();
+            }
+        });
+
+        // 4. Animación Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
