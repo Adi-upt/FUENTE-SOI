@@ -43,7 +43,7 @@
             animation: gradientShift 8s ease infinite;
         }
 
-        /* Tarjetas Glassmorphism con efectos Hover 3D suaves */
+        /* Tarjetas Glassmorphism con efectos Hover */
         .glass-card {
             background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(14px);
@@ -67,29 +67,12 @@
             transform: translateY(0);
         }
 
-        /* Animación de paquetes de red en el flujo híbrido */
-        @keyframes pulseFlow {
-            0% { stroke-dashoffset: 24; }
-            100% { stroke-dashoffset: 0; }
-        }
-        .flow-line {
-            stroke-dasharray: 6 6;
-            animation: pulseFlow 1s linear infinite;
-        }
-
         /* Botones de pestañas activas */
         .tab-btn.active {
             background: linear-gradient(90deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
             border-color: #38bdf8;
             color: #ffffff;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-        }
-
-        /* Resaltado de búsqueda */
-        .search-hit {
-            ring: 2px solid #38bdf8;
-            border-color: #38bdf8 !important;
-            background: rgba(14, 116, 144, 0.2) !important;
         }
     </style>
 </head>
@@ -143,18 +126,18 @@
             Aplicación web de asistencia documental basada en <strong>Generación Aumentada por Recuperación (RAG)</strong> y <strong>Model Context Protocol (MCP)</strong>, desplegada entre <strong>Microsoft Azure (MATTEO-01)</strong> y el nodo local de IA <strong>MATTEOXPC (ProjectSevera / PyTorch)</strong> mediante red privada <strong>Tailscale</strong>.
         </p>
 
-        <!-- 4 Botones de Descarga Oficiales -->
+        <!-- 4 Botones de Descarga con los Nombres Exactos del Repositorio -->
         <div class="flex flex-wrap justify-center gap-4 mb-14">
-            <a href="documento.pdf" download class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
+            <a href="./Informe_Unidad_II_RAG_MCP_ProjectSevera.pdf" download="Informe_Unidad_II_RAG_MCP_ProjectSevera.pdf" class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
                 <span class="text-xl">📄</span> Descargar Documento (PDF)
             </a>
-            <a href="documento.docx" download class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
+            <a href="./Informe_Unidad_II_RAG_MCP_ProjectSevera.docx" download="Informe_Unidad_II_RAG_MCP_ProjectSevera.docx" class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
                 <span class="text-xl">📝</span> Descargar Documento (Word)
             </a>
-            <a href="presentacion.pdf" download class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
+            <a href="./Dise%C3%B1o%20de%20Soluci%C3%B3n%20RAG%20y%20MCP%20con%20ProjectSevera.pdf" download="Diseño de Solución RAG y MCP con ProjectSevera.pdf" class="glass-card hover:bg-slate-800 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition">
                 <span class="text-xl">📊</span> Ver Presentación (PDF)
             </a>
-            <a href="presentacion.pptx" download class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition shadow-xl shadow-blue-500/30 hover:scale-105">
+            <a href="./Dise%C3%B1o%20de%20Soluci%C3%B3n%20RAG%20y%20MCP%20con%20ProjectSevera.pptx" download="Diseño de Solución RAG y MCP con ProjectSevera.pptx" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-7 py-4 rounded-xl font-semibold flex items-center gap-3 transition shadow-xl shadow-blue-500/30 hover:scale-105">
                 <span class="text-xl">📥</span> Descargar Presentación (PPTX)
             </a>
         </div>
@@ -259,7 +242,7 @@
                 </div>
             </div>
 
-            <!-- Columna Diagrama Interactivo Animado de la Arquitectura Híbrida -->
+            <!-- Columna Diagrama Interactivo de la Arquitectura Híbrida -->
             <div class="lg:col-span-7 glass-card p-6 md:p-8 rounded-2xl relative overflow-hidden">
                 <div class="flex justify-between items-center mb-6">
                     <div>
@@ -271,7 +254,7 @@
                     </span>
                 </div>
 
-                <!-- Esquema Visual Animado -->
+                <!-- Esquema Visual -->
                 <div class="grid md:grid-cols-3 gap-4 items-stretch relative">
                     <!-- Nodo 1: Clientes -->
                     <div class="bg-slate-900/90 border border-slate-700/80 p-4 rounded-xl flex flex-col justify-between">
@@ -328,7 +311,7 @@
                     </div>
                 </div>
 
-                <!-- Línea animada SVG de extremo a extremo -->
+                <!-- Trazabilidad -->
                 <div class="mt-5 bg-slate-950/70 border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
                     <span class="text-slate-400">Trazabilidad Arquitectónica:</span>
                     <span class="mono text-sky-300 text-[11px]">Objetivo → Caso de Uso (CU) → Requerimiento (RF/RNF) → Componente Hexagonal → Prueba (PF/PN)</span>
@@ -342,7 +325,7 @@
     ====================================================== -->
     <section id="explorador" class="max-w-7xl mx-auto px-6 py-12 reveal">
         <div class="text-center mb-8">
-            <span class="text-xs font-bold uppercase tracking-wider text-sky-400 mono">Especificaciones Consolidada del Esqueleto</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-sky-400 mono">Especificaciones Consolidadas del Informe</span>
             <h2 class="text-3xl font-extrabold mt-1">Explorador Técnico Interactivo</h2>
             <p class="text-sm text-slate-400 mt-2">Navega por las decisiones de ingeniería aprobadas para la implementación en la Unidad III.</p>
         </div>
