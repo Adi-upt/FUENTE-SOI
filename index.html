@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot RAG + MCP | Solución Tecnológica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navegación -->
+    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
+        <div class="text-2xl font-bold tracking-tighter">RAG<span class="text-blue-400">+</span>MCP</div>
+        <a href="https://github.com/TU-USUARIO/TU-REPO" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-semibold transition">Ver en GitHub</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="max-w-6xl mx-auto px-6 py-20 text-center">
+        <span class="bg-blue-900 text-blue-300 px-4 py-1 rounded-full text-sm font-semibold mb-6 inline-block">Ingeniería de Sistemas - Unidad II</span>
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">Diseño de Solución Tecnológica<br><span class="gradient-text">Chatbot de Soporte Técnico</span></h1>
+        <p class="text-xl text-slate-400 max-w-3xl mx-auto mb-10">Arquitectura basada en Generación Aumentada por Recuperación (RAG) y Model Context Protocol (MCP) desplegada On-Premise sobre Windows Server 2022.</p>
+        
+        <!-- Botones de Descarga -->
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="documento.pdf" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
+                📄 Descargar Documento (PDF)
+            </a>
+            <a href="documento.docx" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
+                📝 Descargar Documento (Word)
+            </a>
+            <a href="presentacion.pdf" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
+                📊 Ver Presentación (PDF)
+            </a>
+            <a href="presentacion.pptx" download class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition shadow-lg shadow-blue-500/30">
+                📥 Descargar Presentación (PPTX)
+            </a>
+        </div>
+    </header>
+
+    <!-- Sobre el Proyecto -->
+    <section class="max-w-6xl mx-auto px-6 py-20">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold mb-6">El Problema vs. La Solución</h2>
+                <p class="text-slate-400 mb-4"><strong class="text-white">Problema:</strong> Una PyME dedica excesivas horas-hombre a la resolución manual de tickets, con un MTTR de 8 horas y procesos fragmentados.</p>
+                <p class="text-slate-400"><strong class="text-white">Solución:</strong> Un chatbot inteligente que combina RAG (para buscar en manuales y tickets históricos) y MCP (para ejecutar herramientas de diagnóstico), desplegado de forma segura en servidores locales.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <div class="text-4xl font-bold text-blue-400 mb-2">25%</div>
+                    <div class="text-sm text-slate-300">Reducción de MTTR</div>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <div class="text-4xl font-bold text-indigo-400 mb-2">99.5%</div>
+                    <div class="text-sm text-slate-300">Disponibilidad</div>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <div class="text-4xl font-bold text-sky-400 mb-2">&lt; 3s</div>
+                    <div class="text-sm text-slate-300">Latencia de respuesta</div>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <div class="text-4xl font-bold text-blue-500 mb-2">100%</div>
+                    <div class="text-sm text-slate-300">On-Premise (Privacidad)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 mt-20 py-10 text-center text-slate-500 text-sm">
+        <p>Proyecto de Ingeniería de Sistemas - Universidad Privada de Tacna (2026)</p>
+        <p class="mt-2">Equipo: Matteo Cutipa, Milagros Condori, Mario Gómez, Emerson Pariguana, André Valdez.</p>
+    </footer>
+
+</body>
+</html>
