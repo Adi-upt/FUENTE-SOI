@@ -1,82 +1,1073 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot RAG + MCP | Solución Tecnológica</title>
+    <title>Diseño de la Solución Tecnológica — Unidad II | RAG + MCP + ProjectSevera</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            securityLevel: 'loose',
+            fontFamily: 'Inter, sans-serif'
+        });
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body { font-family: 'Inter', sans-serif; background-color: #0b1120; color: #f1f5f9; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass-card { background: rgba(15, 23, 42, 0.78); backdrop-filter: blur(12px); border: 1px solid rgba(148, 163, 184, 0.14); }
+        .section-badge { background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .apa-ref { padding-left: 2rem; text-indent: -2rem; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-blue-500 selection:text-white">
 
-    <!-- Navegación -->
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto">
-        <div class="text-2xl font-bold tracking-tighter">RAG<span class="text-blue-400">+</span>MCP</div>
-        <a href="https://github.com/TU-USUARIO/TU-REPO" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full font-semibold transition">Ver en GitHub</a>
+    <!-- Barra de Navegación Superior Fija -->
+    <nav class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="text-xl font-extrabold tracking-tight text-white">RAG<span class="text-sky-400">+</span>MCP <span class="text-xs font-mono bg-slate-800 text-slate-300 px-2.5 py-1 rounded ml-1">ProjectSevera</span></span>
+                <span class="hidden md:inline-block text-xs text-slate-400 border-l border-slate-700 pl-3">UPT • EPIS • Unidad II (Semana 6)</span>
+            </div>
+            <div class="hidden lg:flex items-center gap-5 text-xs font-medium text-slate-300">
+                <a href="#sec-1" class="hover:text-sky-400 transition">1. Resumen</a>
+                <a href="#sec-2" class="hover:text-sky-400 transition">2. Problema</a>
+                <a href="#sec-3" class="hover:text-sky-400 transition">3. Objetivos</a>
+                <a href="#sec-4" class="hover:text-sky-400 transition">4. Requerimientos</a>
+                <a href="#sec-5" class="hover:text-sky-400 transition">5. Arquitectura</a>
+                <a href="#sec-6" class="hover:text-sky-400 transition">6. Infraestructura</a>
+                <a href="#sec-7" class="hover:text-sky-400 transition">7. Red</a>
+                <a href="#sec-8" class="hover:text-sky-400 transition">8. Seguridad</a>
+                <a href="#sec-9" class="hover:text-sky-400 transition">9. Operación</a>
+                <a href="#sec-10" class="hover:text-sky-400 transition">10. Implementación</a>
+                <a href="#sec-11" class="hover:text-sky-400 transition">11. Pruebas</a>
+                <a href="#sec-12" class="hover:text-sky-400 transition">12. Factibilidad</a>
+                <a href="#sec-13" class="hover:text-sky-400 transition">13. Conclusiones</a>
+                <a href="#sec-14" class="hover:text-sky-400 transition">14. Referencias</a>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="https://drive.google.com/drive/folders/1dbMZUSTClK-segeXiTIACFH9ZL4F1fSl" target="_blank" rel="noopener" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3.5 py-2 rounded-lg font-semibold border border-slate-700 transition">
+                    ☁️ Drive del Proyecto
+                </a>
+                <a href="https://github.com/TU-USUARIO/TU-REPO" target="_blank" rel="noopener" class="bg-sky-600 hover:bg-sky-500 text-white text-xs px-4 py-2 rounded-lg font-semibold transition shadow-md shadow-sky-500/20">
+                    ⚡ Repositorio GitHub
+                </a>
+            </div>
+        </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="max-w-6xl mx-auto px-6 py-20 text-center">
-        <span class="bg-blue-900 text-blue-300 px-4 py-1 rounded-full text-sm font-semibold mb-6 inline-block">Ingeniería de Sistemas - Unidad II</span>
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">Diseño de Solución Tecnológica<br><span class="gradient-text">Chatbot de Soporte Técnico</span></h1>
-        <p class="text-xl text-slate-400 max-w-3xl mx-auto mb-10">Arquitectura basada en Generación Aumentada por Recuperación (RAG) y Model Context Protocol (MCP) desplegada On-Premise sobre Windows Server 2022.</p>
-        
-        <!-- Botones de Descarga -->
-        <div class="flex flex-wrap justify-center gap-4">
-            <a href="documento.pdf" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
-                📄 Descargar Documento (PDF)
-            </a>
-            <a href="documento.docx" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
-                📝 Descargar Documento (Word)
-            </a>
-            <a href="presentacion.pdf" download class="glass-card hover:bg-slate-700 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition">
-                📊 Ver Presentación (PDF)
-            </a>
-            <a href="presentacion.pptx" download class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold flex items-center gap-3 transition shadow-lg shadow-blue-500/30">
-                📥 Descargar Presentación (PPTX)
-            </a>
+    <!-- Hero Section y Centro de Descargas Oficiales -->
+    <header class="relative overflow-hidden border-b border-slate-800/80 py-16 md:py-24 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 section-badge px-4 py-1.5 rounded-full text-xs font-semibold mb-6">
+                <span>Universidad Privada de Tacna • Facultad de Ingeniería • EPIS</span>
+                <span>•</span>
+                <span>Avance Unidad II (2026-II)</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+                Diseño de la Solución Tecnológica<br>
+                <span class="gradient-text">Asistencia Documental con RAG y MCP</span>
+            </h1>
+            <p class="text-base md:text-lg text-slate-300 max-w-3xl mx-auto mb-8 leading-relaxed">
+                Aplicación web de soporte técnico documental fundamentada en <strong>Generación Aumentada por Recuperación (RAG)</strong> y <strong>Model Context Protocol (MCP)</strong>, desplegada en arquitectura híbrida entre <strong>Microsoft Azure (MATTEO-01)</strong> y el nodo local de inferencia <strong>MATTEOXPC (ProjectSevera / PyTorch)</strong> mediante red privada <strong>Tailscale</strong>.
+            </p>
+
+            <!-- Botones de Descarga Obligatorios (Word, PDF, PPTX, PDF Presentación, Drive, Prototipo) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto mb-8">
+                <a href="Esqueleto_Unidad_II_RAG_MCP_ProjectSevera.pdf" download class="glass-card hover:border-sky-400/60 hover:bg-slate-800/90 text-white p-4 rounded-xl font-semibold flex items-center justify-center gap-3 transition group">
+                    <span class="text-2xl">📄</span>
+                    <div class="text-left">
+                        <div class="text-xs text-slate-400">Informe Técnico</div>
+                        <div class="text-sm group-hover:text-sky-300">Documento (PDF)</div>
+                    </div>
+                </a>
+                <a href="Esqueleto_Unidad_II_RAG_MCP_ProjectSevera.docx" download class="glass-card hover:border-sky-400/60 hover:bg-slate-800/90 text-white p-4 rounded-xl font-semibold flex items-center justify-center gap-3 transition group">
+                    <span class="text-2xl">📝</span>
+                    <div class="text-left">
+                        <div class="text-xs text-slate-400">Informe Editable</div>
+                        <div class="text-sm group-hover:text-sky-300">Documento (Word)</div>
+                    </div>
+                </a>
+                <a href="Presentacion_Unidad_II_RAG_MCP.pdf" download class="glass-card hover:border-indigo-400/60 hover:bg-slate-800/90 text-white p-4 rounded-xl font-semibold flex items-center justify-center gap-3 transition group">
+                    <span class="text-2xl">📊</span>
+                    <div class="text-left">
+                        <div class="text-xs text-slate-400">Sustentación (10-15 diapos)</div>
+                        <div class="text-sm group-hover:text-indigo-300">Presentación (PDF)</div>
+                    </div>
+                </a>
+                <a href="Presentacion_Unidad_II_RAG_MCP.pptx" download class="bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white p-4 rounded-xl font-semibold flex items-center justify-center gap-3 transition shadow-lg shadow-sky-600/25">
+                    <span class="text-2xl">📥</span>
+                    <div class="text-left">
+                        <div class="text-xs text-sky-100">Sustentación Editable</div>
+                        <div class="text-sm">Presentación (PPTX)</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Indicadores Consolidados del Diseño (Alineados 100% al Esqueleto) -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 max-w-5xl mx-auto text-left">
+                <div class="glass-card p-4 rounded-xl">
+                    <div class="text-xs text-slate-400">Casos de Uso y RF</div>
+                    <div class="text-xl font-bold text-sky-400 mt-1">4 CU • 8 RF</div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Trazabilidad completa</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl">
+                    <div class="text-xs text-slate-400">Calidad ISO/IEC 25010</div>
+                    <div class="text-xl font-bold text-indigo-400 mt-1">11 RNF</div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">Criterios medibles</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl">
+                    <div class="text-xs text-slate-400">Meta Comportamiento Temporal</div>
+                    <div class="text-xl font-bold text-emerald-400 mt-1">≤ 60 s (18/20)</div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">RNF-06 (1 usuario conc.)</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl">
+                    <div class="text-xs text-slate-400">Corrección Documental</div>
+                    <div class="text-xl font-bold text-purple-400 mt-1">≥ 16 / 20</div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">RNF-11 (Fidelidad RAG)</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl col-span-2 md:col-span-1">
+                    <div class="text-xs text-slate-400">Sustento Científico APA 7</div>
+                    <div class="text-xl font-bold text-amber-400 mt-1">58 Fuentes</div>
+                    <div class="text-[11px] text-slate-400 mt-0.5">77.6% (2021–2026)</div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Sobre el Proyecto -->
-    <section class="max-w-6xl mx-auto px-6 py-20">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
+    <!-- Índice Rápido de las 14 Secciones del Aula -->
+    <section class="max-w-7xl mx-auto px-6 py-10 border-b border-slate-800/70">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <div>
-                <h2 class="text-3xl font-bold mb-6">El Problema vs. La Solución</h2>
-                <p class="text-slate-400 mb-4"><strong class="text-white">Problema:</strong> Una PyME dedica excesivas horas-hombre a la resolución manual de tickets, con un MTTR de 8 horas y procesos fragmentados.</p>
-                <p class="text-slate-400"><strong class="text-white">Solución:</strong> Un chatbot inteligente que combina RAG (para buscar en manuales y tickets históricos) y MCP (para ejecutar herramientas de diagnóstico), desplegado de forma segura en servidores locales.</p>
+                <h2 class="text-lg font-bold text-white">Índice Estructural Obligatorio (14 Secciones — Semana 6)</h2>
+                <p class="text-xs text-slate-400">Haz clic en cualquier sección para navegar directamente al diseño técnico y su fundamentación bibliográfica.</p>
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="glass-card p-6 rounded-xl text-center">
-                    <div class="text-4xl font-bold text-blue-400 mb-2">25%</div>
-                    <div class="text-sm text-slate-300">Reducción de MTTR</div>
-                </div>
-                <div class="glass-card p-6 rounded-xl text-center">
-                    <div class="text-4xl font-bold text-indigo-400 mb-2">99.5%</div>
-                    <div class="text-sm text-slate-300">Disponibilidad</div>
-                </div>
-                <div class="glass-card p-6 rounded-xl text-center">
-                    <div class="text-4xl font-bold text-sky-400 mb-2">&lt; 3s</div>
-                    <div class="text-sm text-slate-300">Latencia de respuesta</div>
-                </div>
-                <div class="glass-card p-6 rounded-xl text-center">
-                    <div class="text-4xl font-bold text-blue-500 mb-2">100%</div>
-                    <div class="text-sm text-slate-300">On-Premise (Privacidad)</div>
-                </div>
-            </div>
+            <span class="text-xs mono bg-emerald-950/80 text-emerald-300 border border-emerald-700/50 px-3 py-1.5 rounded-lg">
+                ✓ Cumple estructura mínima de 14 apartados y 4 diagramas
+            </span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2.5 text-xs">
+            <a href="#sec-1" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 01</span>Resumen Ejecutivo</a>
+            <a href="#sec-2" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 02</span>Planteamiento del Problema</a>
+            <a href="#sec-3" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 03</span>Objetivos (General/Esp.)</a>
+            <a href="#sec-4" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 04</span>Requerimientos (RF/RNF)</a>
+            <a href="#sec-5" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 05</span>Diseño de Arquitectura</a>
+            <a href="#sec-6" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 06</span>Diseño de Infraestructura</a>
+            <a href="#sec-7" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 07</span>Diseño de Red</a>
+            <a href="#sec-8" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 08</span>Diseño de Seguridad</a>
+            <a href="#sec-9" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 09</span>Diseño Operativo</a>
+            <a href="#sec-10" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 10</span>Plan de Implementación</a>
+            <a href="#sec-11" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 11</span>Plan de Pruebas</a>
+            <a href="#sec-12" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 12</span>Análisis de Factibilidad</a>
+            <a href="#sec-13" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 13</span>Conclusiones</a>
+            <a href="#sec-14" class="glass-card hover:border-sky-400 p-3 rounded-lg transition"><span class="text-sky-400 font-bold block">Sección 14</span>Referencias (58 APA 7)</a>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 mt-20 py-10 text-center text-slate-500 text-sm">
-        <p>Proyecto de Ingeniería de Sistemas - Universidad Privada de Tacna (2026)</p>
-        <p class="mt-2">Equipo: Matteo Cutipa, Milagros Condori, Mario Gómez, Emerson Pariguana, André Valdez.</p>
+    <!-- CONTENIDO PRINCIPAL DE LAS 14 SECCIONES -->
+    <main class="max-w-7xl mx-auto px-6 py-12 space-y-16">
+
+        <!-- ==========================================
+             1. RESUMEN EJECUTIVO
+        =========================================== -->
+        <section id="sec-1" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 01</span>
+                <h2 class="text-2xl font-bold text-white">1. Resumen Ejecutivo</h2>
+            </div>
+            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                Se propone diseñar una aplicación web para consultar documentación técnica mediante lenguaje natural, utilizando <strong>Generación Aumentada por Recuperación (RAG)</strong> para localizar información de manuales en una memoria no paramétrica externa (Lewis et al., 2020) y el estándar abierto <strong>Model Context Protocol (MCP)</strong> para consultar herramientas externas de forma controlada mediante JSON-RPC 2.0 (Anthropic, 2024; Model Context Protocol, 2025). El propósito es facilitar el acceso a procedimientos y conocimientos de soporte técnico cuando un especialista no se encuentra disponible de inmediato.
+            </p>
+            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+                La aplicación web se publicará en <strong>Microsoft Azure (MATTEO-01)</strong> empleando <strong>Java / Spring Boot</strong> bajo una <strong>arquitectura hexagonal</strong> (Domain, Application/Service e Infrastructure). El motor <strong>ProjectSevera</strong>, ejecutado mediante Python, FastAPI y PyTorch en el nodo local <strong>MATTEOXPC</strong>, se encargará de la ingesta documental, la generación de embeddings, la búsqueda en el índice vectorial y la síntesis de respuestas fundamentadas. La administración de archivos PDF estará restringida a una única cuenta protegida con <strong>Spring Security y BCrypt</strong>, mientras que las consultas de usuarios comunes serán públicas sin exigir registro.
+            </p>
+            <div class="bg-slate-900/90 border border-slate-700/70 rounded-xl p-4 text-xs text-slate-300">
+                <strong class="text-sky-400">Delimitación epistemológica:</strong> La primera versión constituye un prototipo académico de alcance controlado. Sus umbrales de precisión, comportamiento temporal, tolerancia a fallos y seguridad representan metas de diseño que se medirán empíricamente en la Unidad III.
+            </div>
+        </section>
+
+        <!-- ==========================================
+             2. PLANTEAMIENTO DEL PROBLEMA
+        =========================================== -->
+        <section id="sec-2" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 02</span>
+                <h2 class="text-2xl font-bold text-white">2. Planteamiento del Problema</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-slate-900/70 border border-slate-800 p-6 rounded-xl">
+                    <h3 class="text-base font-bold text-sky-400 mb-3">2.1. Situación Actual</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        En entornos de soporte técnico, las instrucciones para configurar y operar aplicaciones, dispositivos y servicios se encuentran distribuidas entre manuales extensos, guías de resolución de problemas (<em>troubleshooting guides</em>) y procedimientos internos (Ahmed et al., 2023; Toro Isaza et al., 2025).
+                    </p>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        La dificultad no radica únicamente en la existencia de los documentos: intervienen la brecha léxica entre el lenguaje coloquial del usuario y la terminología técnica de los manuales (Robertson y Zaragoza, 2009; Karpukhin et al., 2020), la fragmentación de contexto en repositorios planos (Xu et al., 2024; González Juclà et al., 2024) y la necesidad de relacionar múltiples pasajes durante varios turnos conversacionales (Feng et al., 2020, 2021; Chen et al., 2024b).
+                    </p>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-6 rounded-xl">
+                    <h3 class="text-base font-bold text-indigo-400 mb-3">2.2. Necesidad Identificada</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        Se requiere un medio accesible que permita consultar documentación técnica en lenguaje natural, recuperar fragmentos pertinentes y ofrecer explicaciones vinculadas a fuentes identificables (Gao et al., 2023b; Friel et al., 2024).
+                    </p>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Los modelos de lenguaje aislados tienden a producir alucinaciones fácticas cuando responden sobre procedimientos específicos fuera de su conocimiento paramétrico (Ji et al., 2023; Shuster et al., 2021; Adlakha et al., 2024). Asimismo, la ingeniería de sistemas RAG debe mitigar puntos de fallo conocidos en el particionamiento de tablas y filtrado de ruido documental (Barnett et al., 2024; Roy et al., 2024; Barrionuevo-Valenzuela et al., 2025).
+                    </p>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-6 rounded-xl">
+                    <h3 class="text-base font-bold text-purple-400 mb-3">2.3. Justificación de la Propuesta</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        La integración de <strong>RAG y MCP</strong> separa dos responsabilidades distintas: recuperar conocimiento textual desde manuales actualizables (Lewis et al., 2020; Guu et al., 2020; Gao et al., 2024) y consultar información operativa mediante herramientas de solo lectura bajo un protocolo estandarizado que evita el cableado manual de APIs (Yao et al., 2025; Anthropic, 2024; Model Context Protocol, 2025; Hou et al., 2026).
+                    </p>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Dado el riesgo de inyección indirecta de prompts en documentos externos (Greshake et al., 2023; Zhan et al., 2024), el diseño impide que una instrucción dentro de un PDF adquiera privilegios de ejecución.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             3. OBJETIVOS
+        =========================================== -->
+        <section id="sec-3" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 03</span>
+                <h2 class="text-2xl font-bold text-white">3. Objetivos</h2>
+            </div>
+            <div class="bg-gradient-to-r from-sky-950/60 to-indigo-950/60 border border-sky-500/30 p-6 rounded-xl mb-6">
+                <h3 class="text-sm font-bold text-sky-400 uppercase tracking-wider mb-2">3.1. Objetivo General</h3>
+                <p class="text-sm text-slate-200 leading-relaxed">
+                    Diseñar una aplicación web de asistencia técnica basada en RAG y MCP que permita consultar documentación mediante lenguaje natural y obtener información fundamentada en fuentes verificables (Gao et al., 2023b), utilizando una infraestructura distribuida entre Azure y un equipo local de procesamiento de inteligencia artificial.
+                </p>
+            </div>
+            <h3 class="text-sm font-bold text-indigo-400 uppercase tracking-wider mb-4">3.2. Objetivos Específicos</h3>
+            <div class="grid md:grid-cols-2 gap-4 text-xs">
+                <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl flex gap-3">
+                    <span class="bg-sky-500/20 text-sky-400 font-bold mono px-2.5 py-1 rounded h-fit">OE-01</span>
+                    <p class="text-slate-300 leading-relaxed">Diseñar un módulo de gestión documental que permita incorporar, almacenar, listar y retirar manuales técnicos en formato PDF manteniendo sincronía con el índice vectorial.</p>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl flex gap-3">
+                    <span class="bg-sky-500/20 text-sky-400 font-bold mono px-2.5 py-1 rounded h-fit">OE-02</span>
+                    <p class="text-slate-300 leading-relaxed">Diseñar un sistema de consultas RAG que recupere evidencia relevante y genere respuestas vinculadas a documentos, incluyendo abstención explícita cuando la información resulte insuficiente (Asai et al., 2024; Yan et al., 2024).</p>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl flex gap-3">
+                    <span class="bg-sky-500/20 text-sky-400 font-bold mono px-2.5 py-1 rounded h-fit">OE-03</span>
+                    <p class="text-slate-300 leading-relaxed">Establecer la integración con herramientas MCP autorizadas para obtener información operativa de solo lectura bajo validación estricta (Hou et al., 2026).</p>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl flex gap-3">
+                    <span class="bg-sky-500/20 text-sky-400 font-bold mono px-2.5 py-1 rounded h-fit">OE-04</span>
+                    <p class="text-slate-300 leading-relaxed">Definir la arquitectura hexagonal, la infraestructura híbrida, los controles de seguridad y el plan de pruebas necesarios para implementar y validar el prototipo en la Unidad III.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             4. REQUERIMIENTOS (4.1 FUNCIONALES Y 4.2 NO FUNCIONALES)
+        =========================================== -->
+        <section id="sec-4" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 04</span>
+                <h2 class="text-2xl font-bold text-white">4. Requerimientos Funcionales y No Funcionales</h2>
+            </div>
+
+            <!-- Casos de Uso y Figura 1 -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-10 items-center">
+                <div>
+                    <h3 class="text-base font-bold text-sky-400 mb-3">Casos de Uso Consolidados (CU-01 a CU-04)</h3>
+                    <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                        El alcance funcional se estructura en cuatro casos de uso (Chen et al., 2024b; Anthropic, 2024; Yao et al., 2025; Hou et al., 2026). <code>CU-03</code> extiende funcionalmente a <code>CU-01</code> cuando se requiere un dato operativo de solo lectura, mientras que la sesión autenticada en <code>CU-04</code> actúa como precondición obligatoria de <code>CU-02</code>.
+                    </p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                    <th class="p-2.5 font-bold">Código</th>
+                                    <th class="p-2.5 font-bold">Actor</th>
+                                    <th class="p-2.5 font-bold">Caso de Uso</th>
+                                    <th class="p-2.5 font-bold">Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td class="p-2.5 mono text-sky-400 font-semibold">CU-01</td><td class="p-2.5">Usuario / Admin</td><td class="p-2.5 font-semibold">Consultar IA</td><td class="p-2.5">Pregunta en lenguaje natural; recuperación RAG y respuesta con fuentes o abstención.</td></tr>
+                                <tr><td class="p-2.5 mono text-sky-400 font-semibold">CU-02</td><td class="p-2.5">Administrador</td><td class="p-2.5 font-semibold">Gestionar documentación</td><td class="p-2.5">Carga, listado y eliminación de PDF, con sincronización del índice.</td></tr>
+                                <tr><td class="p-2.5 mono text-sky-400 font-semibold">CU-03</td><td class="p-2.5">Usuario / Admin</td><td class="p-2.5 font-semibold">Consultar herramientas MCP</td><td class="p-2.5">Extiende CU-01 cuando se requiere un dato de una herramienta permitida.</td></tr>
+                                <tr><td class="p-2.5 mono text-sky-400 font-semibold">CU-04</td><td class="p-2.5">Administrador</td><td class="p-2.5 font-semibold">Iniciar sesión</td><td class="p-2.5">Autenticación previa a operaciones de administración documental.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-xl">
+                    <div class="text-xs font-bold text-white mb-1">Figura 1</div>
+                    <div class="text-xs italic text-slate-400 mb-3">Casos de uso consolidados: CU-01, CU-02, CU-03 y CU-04</div>
+                    <div class="mermaid flex justify-center">
+                        flowchart LR
+                            U([Usuario Público]) --> CU01([CU-01: Consultar IA])
+                            U --> CU03([CU-03: Consultar herramientas MCP])
+                            CU03 -.->|extiende| CU01
+                            A([Administrador]) --> CU01
+                            A --> CU04([CU-04: Iniciar sesión])
+                            A --> CU02([CU-02: Gestionar documentación])
+                            CU04 -.->|precondición| CU02
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-3"><em>Nota.</em> Elaboración propia a partir del diseño consolidado del sistema.</p>
+                </div>
+            </div>
+
+            <!-- 4.1 Requerimientos Funcionales -->
+            <div class="mb-10">
+                <h3 class="text-base font-bold text-sky-400 mb-3">4.1. Requerimientos Funcionales (RF-01 a RF-08)</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                <th class="p-3 font-bold">ID</th>
+                                <th class="p-3 font-bold">Función Requerida</th>
+                                <th class="p-3 font-bold">Caso de Uso</th>
+                                <th class="p-3 font-bold">Sustento Teórico</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 text-slate-300">
+                            <tr><td class="p-3 mono text-sky-400 font-semibold">RF-01</td><td class="p-3">Permitir consultas en lenguaje natural sin exigir registro de usuario.</td><td class="p-3 mono">CU-01</td><td class="p-3">Feng et al. (2020)</td></tr>
+                            <tr><td class="p-3 mono text-sky-400 font-semibold">RF-02</td><td class="p-3">Recuperar contenido documental mediante RAG y generar respuestas acompañadas de referencias a sus fuentes.</td><td class="p-3 mono">CU-01</td><td class="p-3">Lewis et al. (2020); Gao et al. (2023b); Toro Isaza et al. (2025)</td></tr>
+                            <tr><td class="p-3 mono text-sky-400 font-semibold">RF-03</td><td class="p-3">Informar cuando no exista documentación suficiente para responder la consulta (abstención controlada).</td><td class="p-3 mono">CU-01</td><td class="p-3">Ji et al. (2023); Shuster et al. (2021); Asai et al. (2024); Yan et al. (2024)</td></tr>
+                            <tr><td class="p-3 mono text-sky-400 font-semibold">RF-04</td><td class="p-3">Permitir al administrador cargar archivos PDF y consultar el listado de documentos disponibles.</td><td class="p-3 mono">CU-02</td><td class="p-3">González Juclà et al. (2024)</td></tr>
+                            <tr><td class="p-3 mono text-sky-400 font-semibold">RF-05</td><td class="p-3">Permitir al administrador retirar documentos y solicitar la eliminación de sus fragmentos del índice RAG.</td><td class="p-3 mono">CU-02</td><td class="p-3">Barnett et al. (2024); Xu et al. (2024)</td></tr>
+                            <tr><td class="p-3 mono text-sky-400 font-semibold">RF-06</td><td class="p-3">Procesar los documentos incorporados para habilitar su consulta y mostrar el estado de procesamiento.</td><td class="p-3 mono">CU-02</td><td class="p-3">Śmigielski et al. (2026)</td></tr>
+                            <tr><td class="p-3 mono text-sky-400 font-semibold">RF-07</td><td class="p-3">Consultar herramientas MCP previamente autorizadas y presentar sus resultados dentro del flujo de asistencia.</td><td class="p-3 mono">CU-03</td><td class="p-3">Model Context Protocol (2025); Yao et al. (2025); Hou et al. (2026)</td></tr>
+                            <tr><td class="p-3 mono text-sky-400 font-semibold">RF-08</td><td class="p-3">Permitir al administrador iniciar y cerrar sesión mediante credenciales protegidas.</td><td class="p-3 mono">CU-04</td><td class="p-3">VMware (2024)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4.2 Requerimientos No Funcionales (6 Dimensiones del Aula + ISO/IEC 25010:2023) -->
+            <div>
+                <h3 class="text-base font-bold text-indigo-400 mb-2">4.2. Requerimientos No Funcionales (Dimensiones del Curso e ISO/IEC 25010:2023)</h3>
+                <p class="text-xs text-slate-300 mb-4">
+                    Los atributos de calidad requeridos en el aula (<strong>Disponibilidad, Seguridad, Rendimiento, Escalabilidad, Mantenibilidad y Usabilidad</strong>) se formalizan mediante 11 requerimientos no funcionales verificables bajo el estándar <strong>ISO/IEC 25010:2023</strong> (ISO/IEC, 2023):
+                </p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                <th class="p-3 font-bold">ID</th>
+                                <th class="p-3 font-bold">Categoría del Aula</th>
+                                <th class="p-3 font-bold">Atributo ISO/IEC 25010:2023</th>
+                                <th class="p-3 font-bold">Criterio de Aceptación Propuesto (Meta Unidad III)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 text-slate-300">
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-01</td><td class="p-3 font-semibold text-rose-300">Seguridad</td><td class="p-3">Seguridad / Autenticidad</td><td class="p-3">Rechazar 10 de 10 operaciones administrativas ejecutadas sin autenticación válida (VMware, 2024).</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-02</td><td class="p-3 font-semibold text-rose-300">Seguridad</td><td class="p-3">Seguridad / Resistencia a ataques</td><td class="p-3">Rechazar 10 de 10 invocaciones MCP no autorizadas de una batería controlada (Zhan et al., 2024; Hou et al., 2026).</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-03</td><td class="p-3 font-semibold text-rose-300">Seguridad</td><td class="p-3">Seguridad / Integridad</td><td class="p-3">Rechazar el 100 % de archivos de prueba inválidos o que excedan el tamaño máximo configurado (Greshake et al., 2023).</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-04</td><td class="p-3 font-semibold text-emerald-300">Disponibilidad</td><td class="p-3">Fiabilidad / Tolerancia a fallos</td><td class="p-3">Informar en ≤ 10 s una indisponibilidad simulada de ProjectSevera en 5 ensayos, sin presentar respuestas fabricadas.</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-05</td><td class="p-3 font-semibold text-emerald-300">Disponibilidad</td><td class="p-3">Fiabilidad / Recuperabilidad</td><td class="p-3">Ejecutar respaldos diarios de documentos PDF y <code>metadata.json</code> y completar 1 restauración de prueba íntegra.</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-06</td><td class="p-3 font-semibold text-amber-300">Rendimiento</td><td class="p-3">Eficiencia / Comportamiento temporal</td><td class="p-3">Completar al menos 18 de 20 consultas RAG en ≤ 60 s, con 1 usuario concurrente y ambos nodos operativos.</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-07</td><td class="p-3 font-semibold text-sky-300">Usabilidad</td><td class="p-3">Capacidad de interacción / Operabilidad</td><td class="p-3">Permitir consultar y visualizar la respuesta con su fuente documental mediante ≤ 3 acciones principales en la interfaz web.</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-08</td><td class="p-3 font-semibold text-purple-300">Mantenibilidad</td><td class="p-3">Mantenibilidad / Modificabilidad</td><td class="p-3">Sustituir <code>PythonAiAdapter</code> por un adaptador simulado sin modificar la capa <code>Domain</code> ni los casos de uso (Cockburn, 2005).</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-09</td><td class="p-3 font-semibold text-purple-300">Mantenibilidad</td><td class="p-3">Compatibilidad / Interoperabilidad</td><td class="p-3">Superar 10 intercambios válidos de solicitud-respuesta según el contrato JSON Java–Python definido (Modran, 2025).</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-10</td><td class="p-3 font-semibold text-cyan-300">Escalabilidad</td><td class="p-3">Flexibilidad / Escalabilidad</td><td class="p-3">Incorporar e indexar al menos 20 manuales PDF de prueba sin modificar el código fuente del sistema.</td></tr>
+                            <tr><td class="p-3 mono text-indigo-400 font-semibold">RNF-11</td><td class="p-3 font-semibold text-amber-300">Rendimiento / Calidad RAG</td><td class="p-3">Adecuación funcional / Corrección</td><td class="p-3">Al menos 16 de 20 respuestas de referencia deben corresponder a evidencia documental correctamente identificada (Es et al., 2024; Saad-Falcon et al., 2024).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             5. DISEÑO DE LA ARQUITECTURA
+        =========================================== -->
+        <section id="sec-5" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 05</span>
+                <h2 class="text-2xl font-bold text-white">5. Diseño de la Arquitectura</h2>
+            </div>
+
+            <!-- 5.1 Lógica y 5.2 Física -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-xl">
+                    <h3 class="text-base font-bold text-sky-400 mb-2">5.1. Arquitectura Lógica Hexagonal</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                        El backend en Java con Spring Boot aplica el patrón de <strong>Puertos y Adaptadores</strong> (Cockburn, 2005), dividido en tres capas: <strong>Domain</strong> (entidades <code>Document</code> y <code>ConversationContext</code>), <strong>Application / Service</strong> (casos de uso <code>AskQuestionUseCase</code>, <code>ManageDocumentUseCase</code>, <code>QueryMcpToolUseCase</code> y puertos <code>AiProcessingPort</code>, <code>DocumentRepositoryPort</code>, <code>McpToolPort</code>) e <strong>Infrastructure</strong> (controladores REST y adaptadores de salida <code>PythonAiAdapter</code>, <code>McpClientAdapter</code>, <code>FileDocumentRepositoryAdapter</code>). Así, la lógica de dominio no depende directamente de PyTorch ni del transporte MCP (Schick et al., 2023; Yao et al., 2023; Hou et al., 2026).
+                    </p>
+                    <div class="text-xs font-bold text-white mb-1">Figura 2</div>
+                    <div class="text-xs italic text-slate-400 mb-2">Arquitectura lógica hexagonal consolidada</div>
+                    <div class="mermaid">
+                        flowchart TB
+                            subgraph IN["Infrastructure - Entrada"]
+                                UI[Interfaz Web HTML/CSS/JS]
+                                CC[ChatController]
+                                SS[Spring Security ADMIN]
+                                DC[DocumentController]
+                            end
+                            subgraph APP["Application / Service"]
+                                UC1[AskQuestionUseCase CU-01]
+                                UC2[ManageDocumentUseCase CU-02]
+                                UC3[QueryMcpToolUseCase CU-03]
+                                P1[[AiProcessingPort]]
+                                P2[[DocumentRepositoryPort]]
+                                P3[[McpToolPort]]
+                            end
+                            subgraph DOM["Domain"]
+                                D1[(Document)]
+                                D2[(ConversationContext)]
+                            end
+                            subgraph OUT["Infrastructure - Salida"]
+                                A1[PythonAiAdapter]
+                                A2[FileDocumentRepositoryAdapter]
+                                A3[McpClientAdapter]
+                            end
+                            UI --> CC --> UC1
+                            UI --> SS --> DC --> UC2
+                            UC1 -.->|si requiere herramienta| UC3
+                            UC1 --> D2
+                            UC2 --> D1
+                            UC1 & UC2 --> P1 --> A1
+                            UC2 --> P2 --> A2
+                            UC3 --> P3 --> A3
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2"><em>Nota.</em> Elaboración propia.</p>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-xl">
+                    <h3 class="text-base font-bold text-indigo-400 mb-2">5.2. Arquitectura Física y Despliegue</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                        El despliegue físico comprende dos nodos interconectados por una VPN privada Tailscale (Modran, 2025; Gao et al., 2024): la máquina virtual <strong>Azure MATTEO-01</strong> aloja IIS, el backend Spring Boot, el servidor MCP de solo lectura y el repositorio de archivos PDF junto con <code>metadata.json</code>; mientras que la estación de trabajo <strong>MATTEOXPC</strong> ejecuta la API privada en FastAPI, el motor <strong>ProjectSevera</strong> sobre PyTorch y el índice vectorial local (Johnson et al., 2019; Malkov y Yashunin, 2020).
+                    </p>
+                    <div class="text-xs font-bold text-white mb-1">Figura 3</div>
+                    <div class="text-xs italic text-slate-400 mb-2">Arquitectura física: Azure IaaS y equipo local de IA</div>
+                    <div class="mermaid">
+                        flowchart LR
+                            CLI([Clientes Web]) -->|HTTPS 443| NSG[Azure NSG]
+                            subgraph AZ["Azure VM: MATTEO-01 (172.16.0.4)"]
+                                NSG --> IIS[IIS Proxy Inverso :443]
+                                IIS -->|HTTP local| SB[Spring Boot :8080 + Spring Security]
+                                SB --> FS[(PDF + metadata.json)]
+                                SB --> MCPS[Servidor MCP Solo Lectura]
+                                SB --> TSA[Tailscale Azure]
+                            end
+                            subgraph PC["Nodo Local: MATTEOXPC (RTX 5070 Ti)"]
+                                TSP[Tailscale PC] --> FAPI[Python FastAPI :8000]
+                                FAPI --> SEV[ProjectSevera + PyTorch]
+                                FAPI --> VEC[(Índice Vectorial RAG)]
+                            end
+                            TSA <==>|Túnel VPN WireGuard| TSP
+                            FS -.->|Copia diaria| BKP[(Respaldo Externo)]
+                    </div>
+                    <p class="text-[11px] text-slate-400 mt-2"><em>Nota.</em> Elaboración propia.</p>
+                </div>
+            </div>
+
+            <!-- 5.3 Componentes Principales -->
+            <div class="mb-8">
+                <h3 class="text-base font-bold text-sky-400 mb-3">5.3. Componentes Principales</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                <th class="p-3 font-bold">Componente</th>
+                                <th class="p-3 font-bold">Tecnología Propuesta</th>
+                                <th class="p-3 font-bold">Ubicación</th>
+                                <th class="p-3 font-bold">Responsabilidad Arquitectónica</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 text-slate-300">
+                            <tr><td class="p-3 font-semibold text-white">Interfaz Web</td><td class="p-3">HTML5, CSS3, JavaScript</td><td class="p-3">Azure MATTEO-01</td><td class="p-3">Interfaz de consulta pública con citas a fuentes y panel de gestión de PDF para administrador.</td></tr>
+                            <tr><td class="p-3 font-semibold text-white">Backend / Entrada</td><td class="p-3">Java, Spring Boot, API REST</td><td class="p-3">Azure MATTEO-01</td><td class="p-3">Coordinar casos de uso, validar parámetros de entrada y aplicar control de acceso.</td></tr>
+                            <tr><td class="p-3 font-semibold text-white">Dominio / Aplicación</td><td class="p-3">Arquitectura Hexagonal</td><td class="p-3">Azure MATTEO-01</td><td class="p-3">Entidades <code>Document</code>, <code>ConversationContext</code>, casos de uso y contratos de puertos (Cockburn, 2005).</td></tr>
+                            <tr><td class="p-3 font-semibold text-white">Adaptador IA</td><td class="p-3"><code>PythonAiAdapter</code></td><td class="p-3">Azure MATTEO-01</td><td class="p-3">Consumir los endpoints privados de FastAPI a través de la red privada Tailscale.</td></tr>
+                            <tr><td class="p-3 font-semibold text-white">Motor Documental RAG</td><td class="p-3">FastAPI, PyTorch, ProjectSevera</td><td class="p-3">MATTEOXPC</td><td class="p-3">Segmentación de PDF, embeddings, recuperación documental y generación con referencias (Lewis et al., 2020; Śmigielski et al., 2026).</td></tr>
+                            <tr><td class="p-3 font-semibold text-white">Adaptador y Servidor MCP</td><td class="p-3"><code>McpClientAdapter</code> + MCP SDK</td><td class="p-3">Azure MATTEO-01</td><td class="p-3">Invocar herramientas autorizadas de solo lectura bajo esquema JSON-RPC 2.0 (Model Context Protocol, 2025; Hou et al., 2026).</td></tr>
+                            <tr><td class="p-3 font-semibold text-white">Persistencia Documental</td><td class="p-3"><code>FileDocumentRepositoryAdapter</code></td><td class="p-3">Azure MATTEO-01</td><td class="p-3">Almacenar manuales PDF originales y gestionar estados de indexación en <code>metadata.json</code>.</td></tr>
+                            <tr><td class="p-3 font-semibold text-white">Seguridad Administrativa</td><td class="p-3">Spring Security + BCrypt</td><td class="p-3">Azure MATTEO-01</td><td class="p-3">Autenticación de única cuenta <code>ADMIN</code> en memoria; consultas públicas sin sesión (VMware, 2024).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 5.4 Flujo de Información -->
+            <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-xl">
+                <h3 class="text-base font-bold text-purple-400 mb-2">5.4. Flujo de Información de los Cuatro Casos de Uso</h3>
+                <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                    En <code>CU-01</code>, el usuario envía su pregunta a Spring Boot, que la transmite por Tailscale hacia FastAPI/ProjectSevera para recuperar evidencia del índice vectorial y devolver una respuesta citada o abstención (Asai et al., 2024; Yan et al., 2024). En <code>CU-03</code>, si la consulta requiere verificar un estado operativo, el servicio de aplicación valida la herramienta en su lista permitida e invoca al servidor MCP en modo de solo lectura (Modran, 2025; Ghafourian et al., 2025). En <code>CU-04</code> y <code>CU-02</code>, el administrador se autentica con Spring Security y carga o retira archivos PDF, sincronizando su estado en <code>metadata.json</code> y en el índice vectorial local.
+                </p>
+                <div class="text-xs font-bold text-white mb-1">Figura 4</div>
+                <div class="text-xs italic text-slate-400 mb-2">Flujo de información de los cuatro casos de uso</div>
+                <div class="mermaid">
+                    sequenceDiagram
+                        autonumber
+                        actor U as Usuario / Admin
+                        participant SB as Spring Boot (Azure :8080)
+                        participant MCP as Servidor MCP (Solo Lectura)
+                        participant SEV as FastAPI / ProjectSevera (PC :8000)
+                        U->>SB: CU-01: Envía consulta en lenguaje natural
+                        alt Requiere estado operativo (CU-03)
+                            SB->>MCP: Valida lista blanca e invoca herramienta lectura
+                            MCP-->>SB: Resultado estructurado JSON-RPC
+                        end
+                        SB->>SEV: Solicita recuperación RAG + generación (vía Tailscale)
+                        SEV-->>SB: Respuesta fundamentada con citas o abstención
+                        SB-->>U: Entrega respuesta con referencias documentales
+                </div>
+                <p class="text-[11px] text-slate-400 mt-2"><em>Nota.</em> Elaboración propia.</p>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             6. DISEÑO DE INFRAESTRUCTURA
+        =========================================== -->
+        <section id="sec-6" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 06</span>
+                <h2 class="text-2xl font-bold text-white">6. Diseño de Infraestructura</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-sky-400 mb-2">6.1. Servidores y Equipos</h3>
+                    <ul class="text-xs text-slate-300 space-y-2">
+                        <li><strong class="text-white">Servidor Nube (Azure MATTEO-01):</strong> Instancia IaaS tamaño <code>Standard B2as v2</code> con <strong>2 vCPU y 8 GiB de RAM</strong> (Microsoft Corporation, 2024). Aloja la publicación web HTTPS, el backend Java Spring Boot, Spring Security, el servidor MCP y los archivos PDF/JSON.</li>
+                        <li><strong class="text-white">Equipo Local de IA (MATTEOXPC):</strong> Estación de trabajo equipada con procesador <strong>Intel Core i7-14700F, 64 GB de RAM y GPU NVIDIA GeForce RTX 5070 Ti (16 GB VRAM)</strong>. Dedicada a ejecutar FastAPI, PyTorch, ProjectSevera y la búsqueda de similitud en el índice vectorial (Johnson et al., 2019; Gao et al., 2024).</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-2">6.2. Sistemas Operativos y Virtualización</h3>
+                    <ul class="text-xs text-slate-300 space-y-2">
+                        <li><strong class="text-white">Sistemas Operativos:</strong> <code>Windows Server 2022 Datacenter</code> en la máquina virtual Azure <code>MATTEO-01</code> y sistema operativo <code>Windows</code> en la estación local <code>MATTEOXPC</code>.</li>
+                        <li><strong class="text-white">Esquema de Virtualización:</strong> Se emplea virtualización de infraestructura como servicio (IaaS) provista por Microsoft Azure para el nodo web, mientras que <code>MATTEOXPC</code> opera directamente sobre hardware físico para acceder sin sobrecarga a los 16 GB de VRAM de la GPU RTX 5070 Ti mediante CUDA/PyTorch, prescindiendo de hipervisores intermedios como Proxmox.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-purple-400 mb-2">6.3. Almacenamiento y Sincronización</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                        En esta primera versión se prescinde de motores relacionales como PostgreSQL. Los manuales originales en PDF y el archivo de control <code>metadata.json</code> se almacenan en un directorio protegido de <code>MATTEO-01</code>.
+                    </p>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        El archivo <code>metadata.json</code> registra el identificador único de cada documento y su estado (<code>pendiente</code>, <code>procesado</code>, <code>error</code> o <code>eliminado</code>), asegurando que cualquier PDF retirado en Azure sea purgado del índice vectorial en <code>MATTEOXPC</code> (González Juclà et al., 2024; Xu et al., 2024).
+                    </p>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-emerald-400 mb-2">6.4. Servicios Requeridos y Restricciones</h3>
+                    <ul class="text-xs text-slate-300 space-y-1.5">
+                        <li>• <strong>IIS + Certificado HTTPS (Azure):</strong> Publicación web en puerto TCP 443.</li>
+                        <li>• <strong>Spring Boot + Spring Security (Azure):</strong> Escucha interna en <code>127.0.0.1:8080</code>.</li>
+                        <li>• <strong>Servidor MCP solo lectura (Azure):</strong> Consumo local desde el backend Java.</li>
+                        <li>• <strong>Tailscale VPN (Azure y PC):</strong> Interconexión cifrada autenticada (Donenfeld, 2017).</li>
+                        <li>• <strong>FastAPI + ProjectSevera (PC Local):</strong> API privada en puerto TCP <code>8000</code>.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             7. DISEÑO DE RED
+        =========================================== -->
+        <section id="sec-7" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 07</span>
+                <h2 class="text-2xl font-bold text-white">7. Diseño de Red</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="text-base font-bold text-sky-400 mb-2">7.1. Topología, Segmentación y 7.3. Equivalencia VLAN</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        La topología enlaza a los clientes web con <code>MATTEO-01</code> mediante HTTPS (TCP 443) y conecta a la máquina virtual de Azure con <code>MATTEOXPC</code> a través de una red privada virtual punto a punto con <strong>Tailscale</strong> (Donenfeld, 2017). Se establecen tres zonas de segmentación lógica: (1) Zona pública de acceso HTTPS, (2) Zona interna de aplicación y MCP en loopback (<code>127.0.0.1</code>) y (3) Zona privada de inferencia IA sobre la interfaz Tailscale.
+                    </p>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                        <strong>Justificación sobre VLAN:</strong> El prototipo no implementa etiquetas IEEE 802.1Q físicas porque no opera sobre conmutadores L2 corporativos locales; el aislamiento de red se ejecuta mediante <strong>Azure Virtual Network</strong> (<code>vnet-chilecentral-1 / snet-chilecentral-1</code>) y el plano cifrado de Tailscale (Microsoft Corporation, 2024).
+                    </p>
+
+                    <h3 class="text-base font-bold text-indigo-400 mb-2">7.2. Direccionamiento IP y Puertos</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                    <th class="p-2.5 font-bold">Elemento de Red</th>
+                                    <th class="p-2.5 font-bold">Dirección / Red</th>
+                                    <th class="p-2.5 font-bold">Puerto / Exposición</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td class="p-2.5 font-semibold">Azure MATTEO-01</td><td class="p-2.5 mono text-sky-400">172.16.0.4 (Privada observada)</td><td class="p-2.5">vnet-chilecentral-1</td></tr>
+                                <tr><td class="p-2.5 font-semibold">IIS Proxy Inverso</td><td class="p-2.5 mono">IP Pública Azure [Por verificar]</td><td class="p-2.5 mono text-emerald-400">TCP 443 (Público HTTPS)</td></tr>
+                                <tr><td class="p-2.5 font-semibold">Backend Spring Boot</td><td class="p-2.5 mono">127.0.0.1</td><td class="p-2.5 mono">TCP 8080 (Loopback interno)</td></tr>
+                                <tr><td class="p-2.5 font-semibold">Servidor MCP</td><td class="p-2.5 mono">Localhost / IPC</td><td class="p-2.5">Sin exposición pública</td></tr>
+                                <tr><td class="p-2.5 font-semibold">FastAPI / ProjectSevera</td><td class="p-2.5 mono text-indigo-400">IP Privada Tailscale (100.x.y.z)</td><td class="p-2.5 mono">TCP 8000 (Solo VPN Tailscale)</td></tr>
+                                <tr><td class="p-2.5 font-semibold">RDP Administrativo</td><td class="p-2.5 mono">Restringido por NSG / VPN</td><td class="p-2.5 mono text-amber-400">TCP 3389 (Solo admin)</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-base font-bold text-rose-400 mb-2">7.4. Reglas de Firewall (FW-01 a FW-06) y Acceso Remoto</h3>
+                    <p class="text-xs text-slate-300 mb-3">
+                        El control de tráfico combina <strong>Azure Network Security Groups (NSG)</strong> y <strong>Windows Defender Firewall</strong> en ambos sistemas bajo principio de denegación por defecto (NIST, 2020; Microsoft Corporation, 2024):
+                    </p>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                    <th class="p-2.5 font-bold">Regla</th>
+                                    <th class="p-2.5 font-bold">Origen</th>
+                                    <th class="p-2.5 font-bold">Destino y Puerto</th>
+                                    <th class="p-2.5 font-bold">Política</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td class="p-2.5 mono font-bold text-sky-400">FW-01</td><td class="p-2.5">Internet</td><td class="p-2.5">IIS Azure (TCP 443)</td><td class="p-2.5 text-emerald-400 font-semibold">Permitir HTTPS</td></tr>
+                                <tr><td class="p-2.5 mono font-bold text-sky-400">FW-02</td><td class="p-2.5">Internet</td><td class="p-2.5">Spring Boot (8080) y MCP</td><td class="p-2.5 text-rose-400 font-semibold">No publicar / Denegar</td></tr>
+                                <tr><td class="p-2.5 mono font-bold text-sky-400">FW-03</td><td class="p-2.5">Internet</td><td class="p-2.5">FastAPI PC (TCP 8000)</td><td class="p-2.5 text-rose-400 font-semibold">No publicar / Denegar</td></tr>
+                                <tr><td class="p-2.5 mono font-bold text-sky-400">FW-04</td><td class="p-2.5">Tailscale Azure</td><td class="p-2.5">FastAPI PC (TCP 8000)</td><td class="p-2.5 text-emerald-400 font-semibold">Permitir nodo autorizado</td></tr>
+                                <tr><td class="p-2.5 mono font-bold text-sky-400">FW-05</td><td class="p-2.5">Equipo Admin</td><td class="p-2.5">RDP Azure (TCP 3389)</td><td class="p-2.5 text-amber-400 font-semibold">Permitir acceso restringido</td></tr>
+                                <tr><td class="p-2.5 mono font-bold text-sky-400">FW-06</td><td class="p-2.5">Cualquier otro</td><td class="p-2.5">Servicios internos</td><td class="p-2.5 text-rose-400 font-semibold">Denegar por defecto</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-slate-900/90 border border-slate-800 p-4 rounded-xl">
+                        <div class="text-xs font-bold text-white mb-1">Figura 5</div>
+                        <div class="text-xs italic text-slate-400 mb-2">Topología de red propuesta: Azure + Tailscale + ProjectSevera</div>
+                        <div class="mermaid">
+                            flowchart LR
+                                INT((Internet)) -->|FW-01: TCP 443| IIS[IIS HTTPS :443]
+                                INT -.->|FW-02/03: DENY| SB[Spring Boot :8080]
+                                IIS --> SB
+                                SB -->|Loopback| MCP[Servidor MCP]
+                                SB -->|FW-04: VPN Tailscale| FA[FastAPI :8000 MATTEOXPC]
+                        </div>
+                        <p class="text-[11px] text-slate-400 mt-1"><em>Nota.</em> Elaboración propia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             8. DISEÑO DE SEGURIDAD
+        =========================================== -->
+        <section id="sec-8" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 08</span>
+                <h2 class="text-2xl font-bold text-white">8. Diseño de Seguridad</h2>
+            </div>
+
+            <!-- 8.1 Riesgos y Amenazas y 8.2 Controles -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 class="text-base font-bold text-rose-400 mb-2">8.1. Riesgos Identificados y Amenazas (R-01 a R-07)</h3>
+                    <p class="text-xs text-slate-300 mb-3">
+                        Evaluación cualitativa preliminar con escala de Probabilidad (P: 1–3) e Impacto (I: 1–3) alineada a <strong>ISO/IEC 27005:2022</strong> (ISO/IEC, 2022) y literatura sobre vulnerabilidades en agentes y MCP (Greshake et al., 2023; Zhan et al., 2024; Debenedetti et al., 2024; Hasan et al., 2025; Hou et al., 2026):
+                    </p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                    <th class="p-2 font-bold">ID</th>
+                                    <th class="p-2 font-bold">Amenaza / Consecuencia</th>
+                                    <th class="p-2 font-bold">P×I</th>
+                                    <th class="p-2 font-bold">Nivel</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td class="p-2 mono font-bold text-rose-400">R-01</td><td class="p-2">Acceso no autorizado a documentos y funciones ADMIN</td><td class="p-2 mono">2×3=6</td><td class="p-2 text-rose-400 font-bold">Alto</td></tr>
+                                <tr><td class="p-2 mono font-bold text-rose-400">R-02</td><td class="p-2">Indirect prompt injection incorporada en PDF y fragmentos RAG</td><td class="p-2 mono">2×3=6</td><td class="p-2 text-rose-400 font-bold">Alto</td></tr>
+                                <tr><td class="p-2 mono font-bold text-rose-400">R-03</td><td class="p-2">Invocación indebida de herramientas MCP</td><td class="p-2 mono">2×3=6</td><td class="p-2 text-rose-400 font-bold">Alto</td></tr>
+                                <tr><td class="p-2 mono font-bold text-amber-400">R-04</td><td class="p-2">Carga de archivos no válidos o que excedan límites</td><td class="p-2 mono">2×2=4</td><td class="p-2 text-amber-400 font-bold">Medio</td></tr>
+                                <tr><td class="p-2 mono font-bold text-rose-400">R-05</td><td class="p-2">Exposición pública de API Python/MCP u otros servicios internos</td><td class="p-2 mono">2×3=6</td><td class="p-2 text-rose-400 font-bold">Alto</td></tr>
+                                <tr><td class="p-2 mono font-bold text-amber-400">R-06</td><td class="p-2">Pérdida, corrupción o eliminación accidental de PDF/JSON</td><td class="p-2 mono">2×2=4</td><td class="p-2 text-amber-400 font-bold">Medio</td></tr>
+                                <tr><td class="p-2 mono font-bold text-rose-400">R-07</td><td class="p-2">Caída de MATTEOXPC o interrupción del enlace VPN Tailscale</td><td class="p-2 mono">3×2=6</td><td class="p-2 text-rose-400 font-bold">Alto</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-base font-bold text-emerald-400 mb-2">8.2. Controles y Estrategias de Mitigación (E-01 a E-05)</h3>
+                    <p class="text-xs text-slate-300 mb-3">
+                        Los controles propuestos se articulan con las familias técnicas de <strong>NIST SP 800-53 Rev. 5</strong> (NIST, 2020):
+                    </p>
+                    <div class="space-y-2.5 text-xs">
+                        <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-lg">
+                            <span class="mono font-bold text-emerald-400">E-01 (Mitiga R-01 | NIST AC-2, IA-2):</span> Login ADMIN mediante Spring Security con usuario único en memoria y hash <code>BCrypt</code> (VMware, 2024); autorización obligatoria para carga y eliminación de PDF.
+                        </div>
+                        <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-lg">
+                            <span class="mono font-bold text-emerald-400">E-02 (Mitiga R-02, R-04 | NIST SI-10):</span> Validación de extensión, tipo MIME y tamaño de PDF; delimitación estricta entre pasajes recuperados (datos no confiables) e instrucciones de sistema; abstención ante falta de evidencia.
+                        </div>
+                        <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-lg">
+                            <span class="mono font-bold text-emerald-400">E-03 (Mitiga R-02, R-03 | NIST AC-6):</span> Lista blanca corta (<code>allowed_tools</code>) en Java y en el servidor MCP restringida exclusivamente a operaciones de solo lectura con validación de parámetros (Modran, 2025; Hou et al., 2026).
+                        </div>
+                        <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-lg">
+                            <span class="mono font-bold text-emerald-400">E-04 (Mitiga R-05 | NIST SC-7, SC-8):</span> Exposición única por HTTPS (443), ocultamiento de puertos internos (8080/8000), reglas NSG, Windows Firewall y túnel cifrado Tailscale.
+                        </div>
+                        <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-lg">
+                            <span class="mono font-bold text-emerald-400">E-05 (Mitiga R-06, R-07 | NIST CP-9, AU-2, SI-4):</span> Respaldos diarios externos con prueba de restauración, monitoreo de disponibilidad y mensajes de fallo controlados en ≤ 10 s.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8.3 Diagrama de Seguridad y 8.4, 8.5, 8.6 -->
+            <div class="grid lg:grid-cols-3 gap-6">
+                <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-sky-400 mb-2">8.4. Gestión de Accesos</h3>
+                    <ul class="text-xs text-slate-300 space-y-2">
+                        <li><strong class="text-white">Usuario público:</strong> Consultar IA y solicitar lecturas MCP previamente permitidas.</li>
+                        <li><strong class="text-white">Administrador:</strong> Consultar IA, iniciar sesión, cargar, listar y eliminar PDF.</li>
+                        <li><strong class="text-white">Servicio Java:</strong> Consumir API Python por VPN e invocar herramientas MCP locales permitidas.</li>
+                        <li><strong class="text-white">Servicio Python:</strong> Indexar y responder consultas; sin privilegios sobre credenciales ni sobre Azure.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-2">8.5. Respaldo y Recuperación</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                        Se programan respaldos diarios automatizados de los archivos PDF originales y de <code>metadata.json</code> hacia almacenamiento externo independiente, conservando una retención inicial de <strong>7 copias</strong> y ejecutando al menos una prueba de restauración verificada (<code>PN-05</code>).
+                    </p>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        No se promete un RTO empresarial continuo dado que <code>MATTEOXPC</code> es un nodo único sin clúster de alta disponibilidad.
+                    </p>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-purple-400 mb-2">8.6. Monitoreo y Auditoría</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Se emplearán las métricas básicas del portal de Azure, el Visor de eventos de Windows Server 2022 y los archivos de registro (logs) de Spring Boot, FastAPI y el servidor MCP. Cada evento registrará marca temporal, identificador de operación, estado y actor, prohibiendo almacenar contraseñas en texto plano o hashes de sesión en los logs (NIST, 2020; Hou et al., 2026).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             9. DISEÑO OPERATIVO
+        =========================================== -->
+        <section id="sec-9" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 09</span>
+                <h2 class="text-2xl font-bold text-white">9. Diseño Operativo</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-sky-400 mb-2">9.1. Roles y Responsabilidades</h3>
+                    <ul class="text-xs text-slate-300 space-y-2">
+                        <li>• <strong>Administrador documental:</strong> Autenticarse como ADMIN; cargar, listar y retirar PDF; verificar estado de indexación.</li>
+                        <li>• <strong>Responsable de backend:</strong> Mantener Spring Boot, puertos/adaptadores, seguridad y logs.</li>
+                        <li>• <strong>Responsable de IA:</strong> Operar ProjectSevera, FastAPI, embeddings e índice vectorial en <code>MATTEOXPC</code>.</li>
+                        <li>• <strong>Responsable de infraestructura:</strong> Administrar Azure <code>MATTEO-01</code>, Tailscale, firewall y copias de respaldo.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-2">9.2. Procedimiento de Operación</h3>
+                    <ol class="text-xs text-slate-300 space-y-1.5 list-decimal list-inside">
+                        <li>Comprobar encendido y enlace Tailscale entre <code>MATTEO-01</code> y <code>MATTEOXPC</code>.</li>
+                        <li>Verificar disponibilidad de IIS, Spring Boot, servidor MCP y FastAPI.</li>
+                        <li>Habilitar acceso web HTTPS y ejecutar una consulta documental de control.</li>
+                        <li>Ejecutar altas o bajas de PDF exclusivamente tras iniciar sesión ADMIN.</li>
+                        <li>Auditar registros ante fallos y verificar aviso de indisponibilidad si se apaga la PC.</li>
+                    </ol>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-purple-400 mb-2">9.3. Mantenimiento Preventivo</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Revisión semanal de espacio en disco en Azure y PC local, consistencia entre los archivos PDF físicos, el registro <code>metadata.json</code> y los vectores en ProjectSevera (Barnett et al., 2024), estado de sesiones VPN en Tailscale y validez de las copias de respaldo externas (Hasan et al., 2025).
+                    </p>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-bold text-amber-400 mb-3">9.4. Gestión de Incidentes Operativos</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                            <th class="p-2.5 font-bold">Incidente Detectado</th>
+                            <th class="p-2.5 font-bold">Respuesta Inicial</th>
+                            <th class="p-2.5 font-bold">Procedimiento de Recuperación</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800 text-slate-300">
+                        <tr><td class="p-2.5 font-semibold">Falla de Spring Boot</td><td class="p-2.5">Examinar logs de aplicación y estado del proceso en Azure.</td><td class="p-2.5">Reiniciar servicio Java y verificar consulta básica.</td></tr>
+                        <tr><td class="p-2.5 font-semibold">ProjectSevera no disponible</td><td class="p-2.5">Comprobar encendido de <code>MATTEOXPC</code>, proceso FastAPI y túnel Tailscale.</td><td class="p-2.5">Reanudar servicio local; mostrar aviso controlado en ≤ 10 s si persiste (<code>RNF-04</code>).</td></tr>
+                        <tr><td class="p-2.5 font-semibold">Índice fuera de sincronía</td><td class="p-2.5">Comparar listado de PDF y <code>metadata.json</code> frente al índice vectorial.</td><td class="p-2.5">Reprocesar o depurar los fragmentos de los documentos afectados.</td></tr>
+                        <tr><td class="p-2.5 font-semibold">Pérdida documental</td><td class="p-2.5">Identificar archivos faltantes y marca temporal del último respaldo.</td><td class="p-2.5">Restaurar PDF y <code>metadata.json</code> desde copia externa y sincronizar índice.</td></tr>
+                        <tr><td class="p-2.5 font-semibold">Solicitud MCP rechazada</td><td class="p-2.5">Auditar herramienta solicitada, parámetros y registro de seguridad.</td><td class="p-2.5">Mantener bloqueo por defecto hasta verificar autorización en lista blanca.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             10. PLAN DE IMPLEMENTACIÓN
+        =========================================== -->
+        <section id="sec-10" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 10</span>
+                <h2 class="text-2xl font-bold text-white">10. Plan de Implementación (Proyección Unidad III)</h2>
+            </div>
+
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                            <th class="p-3 font-bold">Fase</th>
+                            <th class="p-3 font-bold">Fechas Propuestas</th>
+                            <th class="p-3 font-bold">Actividades Principales</th>
+                            <th class="p-3 font-bold">Dependencia Crítica</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800 text-slate-300">
+                        <tr><td class="p-3 font-bold text-sky-400">Fase 1. Preparación</td><td class="p-3 mono">16–22 nov. 2026</td><td class="p-3">Validar VM Azure <code>MATTEO-01</code>; configurar IIS HTTPS y Tailscale; publicar FastAPI en <code>MATTEOXPC</code>; estructurar repositorio Git.</td><td class="p-3">Disponibilidad de ambos nodos</td></tr>
+                        <tr><td class="p-3 font-bold text-indigo-400">Fase 2. Núcleo RAG</td><td class="p-3 mono">23–29 nov. 2026</td><td class="p-3">Implementar carga/listado/baja de PDF, persistencia en <code>metadata.json</code>, indexación vectorial en ProjectSevera y respuestas con citas.</td><td class="p-3">Fase 1 y contrato API Python</td></tr>
+                        <tr><td class="p-3 font-bold text-purple-400">Fase 3. Integración MCP y Seguridad</td><td class="p-3 mono">30 nov.–3 dic. 2026</td><td class="p-3">Integrar cliente/servidor MCP de solo lectura, autenticación ADMIN con Spring Security + BCrypt, reglas NSG/Firewall, logs y respaldos.</td><td class="p-3">Fase 2 y contratos estables</td></tr>
+                        <tr><td class="p-3 font-bold text-emerald-400">Fase 4. Pruebas y Evidencias</td><td class="p-3 mono">4–6 dic. 2026</td><td class="p-3">Ejecutar protocolo de pruebas <code>PF-01</code>–<code>PF-08</code> y <code>PN-01</code>–<code>PN-11</code>, pruebas de prompt injection, restauración y registro de evidencias.</td><td class="p-3">Integración operativa completa</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-slate-300">
+                <strong>Recursos requeridos:</strong> Integrantes del equipo asignados a backend Java, IA/ProjectSevera, red/seguridad y pruebas QA; infraestructura compuesta por <code>MATTEO-01</code> y <code>MATTEOXPC</code>; stack de software basado en Spring Boot, FastAPI, PyTorch, SDK MCP, IIS y Tailscale (Modran, 2025; Hasan et al., 2025; Hou et al., 2026).
+            </p>
+        </section>
+
+        <!-- ==========================================
+             11. PLAN DE PRUEBAS
+        =========================================== -->
+        <section id="sec-11" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 11</span>
+                <h2 class="text-2xl font-bold text-white">11. Plan de Pruebas y Matriz de Trazabilidad</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 mb-6">
+                <div>
+                    <h3 class="text-base font-bold text-sky-400 mb-3">11.1. Pruebas Funcionales (PF-01 a PF-08)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                    <th class="p-2 font-bold">Prueba</th>
+                                    <th class="p-2 font-bold">RF</th>
+                                    <th class="p-2 font-bold">Cómo se Probará (Procedimiento)</th>
+                                    <th class="p-2 font-bold">Resultado Esperado / Criterio</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td class="p-2 mono font-bold text-sky-400">PF-01</td><td class="p-2 mono">RF-01</td><td class="p-2">Enviar pregunta desde navegador sin iniciar sesión.</td><td class="p-2">Consulta pública procesada correctamente.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-sky-400">PF-02</td><td class="p-2 mono">RF-02</td><td class="p-2">Preguntar dato presente en manual PDF y verificar fuente.</td><td class="p-2">Respuesta coherente con referencia al documento.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-sky-400">PF-03</td><td class="p-2 mono">RF-03</td><td class="p-2">Formular consulta sobre tema ausente del corpus.</td><td class="p-2">Abstención explícita sin inventar datos.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-sky-400">PF-04</td><td class="p-2 mono">RF-04</td><td class="p-2">Autenticarse como ADMIN; subir y listar archivo PDF.</td><td class="p-2">Documento almacenado y visible en catálogo.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-sky-400">PF-05</td><td class="p-2 mono">RF-05</td><td class="p-2">Eliminar PDF previamente indexado y volver a consultarlo.</td><td class="p-2">Archivo e índice dejan de ofrecer sus fragmentos.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-sky-400">PF-06</td><td class="p-2 mono">RF-06</td><td class="p-2">Cargar PDF y verificar transición de estado en interfaz.</td><td class="p-2">Estado cambia a <code>procesado</code> o reporta error.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-sky-400">PF-07</td><td class="p-2 mono">RF-07</td><td class="p-2">Solicitar dato operativo de herramienta MCP autorizada.</td><td class="p-2">Resultado leído e integrado sin modificar el sistema.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-sky-400">PF-08</td><td class="p-2 mono">RF-08</td><td class="p-2">Iniciar y cerrar sesión administrativa con credenciales.</td><td class="p-2">Acceso habilitado tras login y revocado al salir.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-base font-bold text-indigo-400 mb-3">11.2. Pruebas de Atributos de Calidad (PN-01 a PN-11)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-slate-700 text-slate-300 bg-slate-900/80">
+                                    <th class="p-2 font-bold">Prueba</th>
+                                    <th class="p-2 font-bold">RNF</th>
+                                    <th class="p-2 font-bold">Procedimiento y Criterio de Aceptación Medible</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-300">
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-01</td><td class="p-2 mono">RNF-01</td><td class="p-2">10 intentos administrativos sin sesión: <strong>10/10 denegados (HTTP 401/403)</strong>.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-02</td><td class="p-2 mono">RNF-02</td><td class="p-2">10 invocaciones a herramientas MCP prohibidas: <strong>10/10 rechazadas</strong>.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-03</td><td class="p-2 mono">RNF-03</td><td class="p-2">Carga de archivos corruptos o sobre el límite: <strong>100 % rechazados</strong>.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-04</td><td class="p-2 mono">RNF-04</td><td class="p-2">5 desconexiones simuladas de Severa: <strong>aviso controlado en ≤ 10 s (5/5)</strong>.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-05</td><td class="p-2 mono">RNF-05</td><td class="p-2">Ejecutar respaldo y restaurar copia de PDF + <code>metadata.json</code> sin pérdida.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-06</td><td class="p-2 mono">RNF-06</td><td class="p-2">Batería de 20 consultas RAG: <strong>al menos 18 completadas en ≤ 60 s</strong>.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-07</td><td class="p-2 mono">RNF-07</td><td class="p-2">Completar consulta y visualizar cita en <strong>≤ 3 interacciones principales</strong>.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-08</td><td class="p-2 mono">RNF-08</td><td class="p-2">Reemplazar <code>PythonAiAdapter</code> por mock sin tocar <code>Domain</code> ni casos de uso.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-09</td><td class="p-2 mono">RNF-09</td><td class="p-2">Superar <strong>10/10 intercambios JSON Java–Python</strong> conformes al esquema API.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-10</td><td class="p-2 mono">RNF-10</td><td class="p-2">Indexar y consultar <strong>al menos 20 manuales PDF</strong> sin alterar el código.</td></tr>
+                                <tr><td class="p-2 mono font-bold text-indigo-400">PN-11</td><td class="p-2 mono">RNF-11</td><td class="p-2">20 consultas de referencia: <strong>≥ 16 correctas y fieles a la evidencia documental</strong>.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-xs text-slate-300">
+                <strong class="text-purple-400">11.3. Evaluación específica de RAG y seguridad:</strong> La batería de 20 consultas se diseñará siguiendo pruebas conductuales <em>CheckList</em> (Ribeiro et al., 2020) e criterios de atribución y fidelidad documental de <strong>ALCE, RAGAS, ARES y RAGBench</strong> (Gao et al., 2023b; Es et al., 2024; Saad-Falcon et al., 2024; Friel et al., 2024). Además, se inyectarán instrucciones adversarias en PDF de prueba (Greshake et al., 2023; Zhan et al., 2024; Debenedetti et al., 2024) para verificar que el texto recuperado no escale privilegios ni ejecute herramientas no autorizadas.
+            </div>
+        </section>
+
+        <!-- ==========================================
+             12. ANÁLISIS DE FACTIBILIDAD
+        =========================================== -->
+        <section id="sec-12" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 12</span>
+                <h2 class="text-2xl font-bold text-white">12. Análisis de Factibilidad</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-6 mb-6">
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-sky-400 mb-2">12.1. Factibilidad Técnica</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        El prototipo es técnicamente viable porque se dispone tanto de la máquina virtual <code>MATTEO-01</code> en Azure como de la estación local <code>MATTEOXPC</code> (i7-14700F, 64 GB RAM, RTX 5070 Ti 16 GB VRAM). Esta separación delega el cómputo tensorial de PyTorch y ProjectSevera al equipo con GPU dedicada, evitando saturar los 8 GiB de RAM de la instancia Azure (Johnson et al., 2019; Modran, 2025; Toro Isaza et al., 2025).
+                    </p>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-emerald-400 mb-2">12.2. Factibilidad Económica (Supuestos en Soles)</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-2">
+                        Dado que <code>MATTEOXPC</code> es un equipo preexistente (CAPEX de hardware S/ 0,00 para el prototipo), la estimación considera hipótesis presupuestarias referenciales (tipo de cambio S/ 3,423/USD y tarifa eléctrica supuesta S/ 0,80/kWh):
+                    </p>
+                    <ul class="text-xs text-slate-300 space-y-1">
+                        <li>• <strong>Azure VM (~US$ 100/mes):</strong> S/ 342,29 / mes</li>
+                        <li>• <strong>Electricidad media (0,9 kW × 720 h):</strong> S/ 518,40 / mes</li>
+                        <li>• <strong>Mantenimiento equiv. (8 h × S/ 15,63):</strong> S/ 125,00 / mes</li>
+                        <li class="text-emerald-400 font-bold pt-1">• Costo mensual medio estimado: S/ 985,69 / mes</li>
+                        <li class="text-slate-400 text-[11px]">*(Rango entre S/ 812,89 y S/ 1.158,49 según carga de 0,6 a 1,2 kW; desarrollo inicial equivalente: S/ 937,50 por 60 h)*.</li>
+                    </ul>
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-5 rounded-xl">
+                    <h3 class="text-sm font-bold text-indigo-400 mb-2">12.3. Factibilidad Operativa</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        La operación resulta manejable para el equipo universitario asignando responsables de arranque, gestión de PDF y respaldo. Los usuarios finales solo requieren un navegador web sin registro previo (<code>RF-01</code>). La principal restricción operativa es la dependencia del encendido y conexión de <code>MATTEOXPC</code>, mitigada mediante horarios de demostración y avisos controlados de indisponibilidad (Roy et al., 2024; Barrionuevo-Valenzuela et al., 2025).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             13. CONCLUSIONES
+        =========================================== -->
+        <section id="sec-13" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 13</span>
+                <h2 class="text-2xl font-bold text-white">13. Conclusiones</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4 text-xs text-slate-300 leading-relaxed">
+                <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl">
+                    <strong>1. Separación arquitectónica entre RAG y MCP:</strong> El diseño consolida una solución de soporte técnico documental que desacopla la recuperación textual sobre manuales PDF respecto de la consulta operativa en herramientas externas de solo lectura, evitando exponer funciones de administración al modelo generativo.
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl">
+                    <strong>2. Desacoplamiento mediante Arquitectura Hexagonal:</strong> La estructura en capas Domain, Application/Service e Infrastructure en Spring Boot permite aislar las reglas de negocio de los adaptadores hacia FastAPI/ProjectSevera, el almacenamiento local y el servidor MCP.
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl">
+                    <strong>3. Aprovechamiento híbrido de recursos reales:</strong> La combinación de la máquina virtual <code>MATTEO-01</code> en Azure con la GPU RTX 5070 Ti en <code>MATTEOXPC</code> a través de Tailscale viabiliza la ejecución local de modelos de lenguaje sin incurrir en costos de instancias GPU en la nube, reconociendo explícitamente la dependencia de disponibilidad del nodo local.
+                </div>
+                <div class="bg-slate-900/70 border border-slate-800 p-4 rounded-xl">
+                    <strong>4. Compromisos verificables hacia la Unidad III:</strong> Los controles de seguridad (<code>E-01</code> a <code>E-05</code>), los umbrales de calidad (<code>RNF-01</code> a <code>RNF-11</code>) y el presupuesto en soles se establecen como metas e hipótesis transparentes cuya comprobación empírica se ejecutará mediante las pruebas <code>PF-01</code>–<code>PF-08</code> y <code>PN-01</code>–<code>PN-11</code>.
+                </div>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             14. REFERENCIAS BIBLIOGRÁFICAS (58 FUENTES APA 7)
+        =========================================== -->
+        <section id="sec-14" class="scroll-mt-24 glass-card p-8 rounded-2xl">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="section-badge px-3 py-1 rounded-md text-xs font-bold mono">SECCIÓN 14</span>
+                        <h2 class="text-2xl font-bold text-white">14. Referencias Bibliográficas (APA 7.ª Edición)</h2>
+                    </div>
+                    <p class="text-xs text-slate-400">
+                        58 fuentes únicas verificadas y citadas en el cuerpo del documento (77,6 % entre 2021–2026; 91,4 % publicaciones académicas arbitradas y normas técnicas).
+                    </p>
+                </div>
+                <div class="w-full md:w-72">
+                    <input id="refSearch" type="text" placeholder="🔍 Filtrar por autor, año, tema o DOI..." onkeyup="filterRefs()" class="w-full bg-slate-900 border border-slate-700 focus:border-sky-400 rounded-lg px-3.5 py-2 text-xs text-white outline-none transition">
+                </div>
+            </div>
+
+            <div id="refList" class="space-y-3 text-xs text-slate-300 max-h-[540px] overflow-y-auto pr-3 bg-slate-950/60 border border-slate-800/80 p-6 rounded-xl">
+                <p class="apa-ref">Adlakha, V., BehnamGhader, P., Lu, X. H., Meade, N., &amp; Reddy, S. (2024). Evaluating correctness and faithfulness of instruction-following models for question answering. <em>Transactions of the Association for Computational Linguistics</em>, <em>12</em>, 681–699. <a href="https://doi.org/10.1162/tacl_a_00667" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1162/tacl_a_00667</a></p>
+                <p class="apa-ref">Ahmed, T., Ghosh, S., Bansal, C., Zimmermann, T., Zhang, X., &amp; Rajmohan, S. (2023). Recommending root-cause and mitigation steps for cloud incidents using large language models. En <em>Proceedings of the 45th International Conference on Software Engineering (ICSE 2023)</em> (pp. 1737–1749). IEEE. <a href="https://doi.org/10.1109/ICSE48619.2023.00149" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1109/ICSE48619.2023.00149</a></p>
+                <p class="apa-ref">Anthropic. (2024, 25 de noviembre). <em>Introducing the Model Context Protocol</em>. <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" class="text-sky-400 hover:underline">https://www.anthropic.com/news/model-context-protocol</a></p>
+                <p class="apa-ref">Asai, A., Wu, Z., Wang, Y., Sil, A., &amp; Hajishirzi, H. (2024). Self-RAG: Learning to retrieve, generate, and critique through self-reflection. En <em>The Twelfth International Conference on Learning Representations (ICLR 2024)</em>. <a href="https://doi.org/10.48550/arXiv.2310.11511" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2310.11511</a></p>
+                <p class="apa-ref">Barnett, S., Kurniawan, S., Thudumu, S., Brannelly, Z., &amp; Abdelrazek, M. (2024). Seven failure points when engineering a retrieval augmented generation system. En <em>Proceedings of the IEEE/ACM 3rd International Conference on AI Engineering - Software Engineering for AI (CAIN 2024)</em> (pp. 194–199). ACM. <a href="https://doi.org/10.1145/3644815.3644945" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1145/3644815.3644945</a></p>
+                <p class="apa-ref">Barrionuevo-Valenzuela, J., Morales-Garzón, A., &amp; Gutiérrez-Batista, K. (2025). Supporting human operators with Agentic-RAG: A real-time copilot WebApp for customer service. En <em>Proceedings of the International Workshop on Spoken Dialogue Systems Technology (IWSDS)</em> (pp. 348–355). Association for Computational Linguistics.</p>
+                <p class="apa-ref">Borgeaud, S., Mensch, A., Hoffmann, J., Cai, T., Rutherford, E., Millican, K., van den Driessche, G., Lespiau, J.-B., Damoc, B., Clark, A., de Las Casas, D., Guy, A., Menick, J., Ring, R., Hennigan, T., Huang, S., Maggiore, L., Jones, C., Cassirer, A., ... Sifre, L. (2022). Improving language models by retrieving from trillions of tokens. En <em>Proceedings of the 39th International Conference on Machine Learning (PMLR)</em> (Vol. 162, pp. 2206–2240). <a href="https://proceedings.mlr.press/v162/borgeaud22a.html" target="_blank" class="text-sky-400 hover:underline">https://proceedings.mlr.press/v162/borgeaud22a.html</a></p>
+                <p class="apa-ref">Chen, T., Wang, H., Chen, S., Yu, W., Ma, K., Zhao, X., Zhang, H., &amp; Yu, D. (2024a). Dense X retrieval: What retrieval granularity should we use? En <em>Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing (EMNLP 2024)</em> (pp. 15159–15177). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2024.emnlp-main.845" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2024.emnlp-main.845</a></p>
+                <p class="apa-ref">Chen, Y., Xie, H., Li, M., &amp; Zhang, D. (2024b). LLM-based dialogue labeling for multiturn adaptive RAG in customer service. En <em>Proceedings of the Conference on Empirical Methods in Natural Language Processing: Industry Track</em>. Association for Computational Linguistics.</p>
+                <p class="apa-ref">Cockburn, A. (2005). <em>Hexagonal architecture (Ports and Adapters)</em>. Alistair.cockburn.us. <a href="https://alistair.cockburn.us/hexagonal-architecture/" target="_blank" class="text-sky-400 hover:underline">https://alistair.cockburn.us/hexagonal-architecture/</a></p>
+                <p class="apa-ref">Debenedetti, E., Zhang, J., Balunović, M., Beurer-Kellner, L., Fischer, M., &amp; Tramèr, F. (2024). AgentDojo: A dynamic environment to evaluate prompt injection attacks and defenses for LLM agents. <em>Advances in Neural Information Processing Systems</em>, <em>37</em>. <a href="https://doi.org/10.48550/arXiv.2406.13352" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2406.13352</a></p>
+                <p class="apa-ref">Donenfeld, J. A. (2017). WireGuard: Next generation kernel network tunnel. En <em>Proceedings of the 2017 Network and Distributed System Security Symposium (NDSS 2017)</em> (pp. 1–12). Internet Society. <a href="https://doi.org/10.14722/ndss.2017.23160" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.14722/ndss.2017.23160</a></p>
+                <p class="apa-ref">Edge, D., Trinh, H., Cheng, N., Bradley, J., Chao, A., Mody, A., Truitt, S., &amp; Larson, J. (2024). From local to global: A Graph RAG approach to query-focused summarization. <em>arXiv preprint arXiv:2404.16130</em>. <a href="https://doi.org/10.48550/arXiv.2404.16130" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2404.16130</a></p>
+                <p class="apa-ref">Es, S., James, J., Espinosa-Anke, L., &amp; Schockaert, S. (2024). RAGAs: Automated evaluation of retrieval augmented generation. En <em>Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations (EACL 2024)</em> (pp. 150–158). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2024.eacl-demo.16" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2024.eacl-demo.16</a></p>
+                <p class="apa-ref">Feng, S., Wan, H., Gunasekara, C., Patel, S., Joshi, S., &amp; Lastras, L. (2020). doc2dial: A goal-oriented document-grounded dialogue dataset. En <em>Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP 2020)</em> (pp. 8118–8128). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2020.emnlp-main.652" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2020.emnlp-main.652</a></p>
+                <p class="apa-ref">Feng, S., Patel, S., Wan, H., &amp; Joshi, S. (2021). MultiDoc2Dial: Modeling dialogues grounded in multiple documents. En <em>Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing (EMNLP 2021)</em> (pp. 6162–6176). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2021.emnlp-main.498" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2021.emnlp-main.498</a></p>
+                <p class="apa-ref">Friel, R., Belyi, M., &amp; Sanyal, A. (2024). RAGBench: Explainable benchmark for retrieval-augmented generation systems. <em>arXiv preprint arXiv:2407.11005</em>. <a href="https://doi.org/10.48550/arXiv.2407.11005" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2407.11005</a></p>
+                <p class="apa-ref">Gao, L., Ma, X., Lin, J., &amp; Callan, J. (2023a). Precise zero-shot dense retrieval without relevance labels. En <em>Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</em> (pp. 1762–1777). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2023.acl-long.99" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2023.acl-long.99</a></p>
+                <p class="apa-ref">Gao, T., Yen, H., Yu, J., &amp; Chen, D. (2023b). Enabling large language models to generate text with citations. En <em>Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP 2023)</em> (pp. 6465–6488). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2023.emnlp-main.398" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2023.emnlp-main.398</a></p>
+                <p class="apa-ref">Gao, Y., Xiong, Y., Gao, X., Jia, K., Pan, J., Bi, Y., Dai, Y., Sun, J., Wang, M., &amp; Wang, H. (2024). Retrieval-augmented generation for large language models: A survey. <em>arXiv preprint arXiv:2312.10997</em>. <a href="https://doi.org/10.48550/arXiv.2312.10997" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2312.10997</a></p>
+                <p class="apa-ref">Ghafourian, A., et al. (2025). Repairing tool calls using post-tool execution reflection and RAG. <em>arXiv preprint arXiv:2510.17874</em>. <a href="https://doi.org/10.48550/arXiv.2510.17874" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2510.17874</a></p>
+                <p class="apa-ref">González Juclà, M., et al. (2024). Retrieval enhancements for RAG: Embedding fine-tuning and chunking strategies for support documentation. En <em>Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics (EACL 2024): Industry Track</em> (pp. 118–128). Association for Computational Linguistics. <a href="https://aclanthology.org/2024.eacl-industry.13/" target="_blank" class="text-sky-400 hover:underline">https://aclanthology.org/2024.eacl-industry.13/</a></p>
+                <p class="apa-ref">Greshake, K., Abdelnabi, S., Mishra, S., Endres, C., Holz, T., &amp; Fritz, M. (2023). Not what you've signed up for: Compromising real-world LLM-integrated applications with indirect prompt injection. En <em>Proceedings of the 16th ACM Workshop on Artificial Intelligence and Security (AISec 2023)</em> (pp. 79–90). ACM. <a href="https://doi.org/10.1145/3605764.3623985" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1145/3605764.3623985</a></p>
+                <p class="apa-ref">Guu, K., Lee, K., Tung, Z., Pasupat, P., &amp; Chang, M.-W. (2020). Retrieval augmented language model pre-training. En <em>Proceedings of the 37th International Conference on Machine Learning (PMLR)</em> (Vol. 119, pp. 3929–3938). <a href="https://proceedings.mlr.press/v119/guu20a.html" target="_blank" class="text-sky-400 hover:underline">https://proceedings.mlr.press/v119/guu20a.html</a></p>
+                <p class="apa-ref">Hasan, M. M., Li, H., Fallahzadeh, E., Rajbahadur, G. K., Adams, B., &amp; Hassan, A. E. (2025). Model Context Protocol (MCP) at first glance: Studying the security and maintainability of MCP servers. <em>arXiv preprint arXiv:2506.13538</em>. <a href="https://doi.org/10.48550/arXiv.2506.13538" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2506.13538</a></p>
+                <p class="apa-ref">Hou, X., Zhao, Y., Wang, S., &amp; Wang, H. (2026). Model Context Protocol (MCP): Landscape, security threats, and future research directions. <em>ACM Transactions on Software Engineering and Methodology</em>, <em>35</em>(10), Artículo 302. <a href="https://doi.org/10.1145/3796519" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1145/3796519</a></p>
+                <p class="apa-ref">International Organization for Standardization &amp; International Electrotechnical Commission [ISO/IEC]. (2022). <em>Information security, cybersecurity and privacy protection — Guidance on managing information security risks</em> (ISO/IEC 27005:2022). ISO.</p>
+                <p class="apa-ref">International Organization for Standardization &amp; International Electrotechnical Commission [ISO/IEC]. (2023). <em>Systems and software engineering — Systems and software Quality Requirements and Evaluation (SQuaRE) — Product quality model</em> (ISO/IEC 25010:2023). ISO.</p>
+                <p class="apa-ref">Izacard, G., &amp; Grave, E. (2021). Leveraging passage retrieval with generative models for open domain question answering. En <em>Proceedings of the 16th Conference of the European Chapter of the Association for Computational Linguistics: Main Volume (EACL 2021)</em> (pp. 874–880). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2021.eacl-main.74" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2021.eacl-main.74</a></p>
+                <p class="apa-ref">Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y. J., Madotto, A., &amp; Fung, P. (2023). Survey of hallucination in natural language generation. <em>ACM Computing Surveys</em>, <em>55</em>(12), Artículo 248, 1–38. <a href="https://doi.org/10.1145/3571730" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1145/3571730</a></p>
+                <p class="apa-ref">Jiang, Z., Xu, F. F., Gao, L., Sun, Z., Liu, Q., Dwivedi-Yu, J., Yang, Y., Callan, J., &amp; Neubig, G. (2023). Active retrieval augmented generation. En <em>Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP 2023)</em> (pp. 7969–7992). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2023.emnlp-main.495" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2023.emnlp-main.495</a></p>
+                <p class="apa-ref">Johnson, J., Douze, M., &amp; Jégou, H. (2019). Billion-scale similarity search with GPUs. <em>IEEE Transactions on Big Data</em>, <em>7</em>(3), 535–547. <a href="https://doi.org/10.1109/TBDATA.2019.2921572" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1109/TBDATA.2019.2921572</a></p>
+                <p class="apa-ref">Karpukhin, V., Oguz, B., Min, S., Lewis, P., Wu, L., Edunov, S., Chen, D., &amp; Yih, W.-t. (2020). Dense passage retrieval for open-domain question answering. En <em>Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP 2020)</em> (pp. 6769–6781). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2020.emnlp-main.550" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2020.emnlp-main.550</a></p>
+                <p class="apa-ref">Khattab, O., &amp; Zaharia, M. (2020). ColBERT: Efficient and effective passage search via contextualized late interaction over BERT. En <em>Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2020)</em> (pp. 39–48). ACM. <a href="https://doi.org/10.1145/3397271.3401075" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1145/3397271.3401075</a></p>
+                <p class="apa-ref">Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W.-t., Rocktäschel, T., Riedel, S., &amp; Kiela, D. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. <em>Advances in Neural Information Processing Systems</em>, <em>33</em>, 9459–9474. <a href="https://doi.org/10.48550/arXiv.2005.11401" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2005.11401</a></p>
+                <p class="apa-ref">Li, M., Zhao, Y., Yu, B., Song, F., Li, H., Yu, H., Li, Z., Huang, F., &amp; Li, Y. (2023). API-Bank: A comprehensive benchmark for tool-augmented LLMs. En <em>Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP 2023)</em> (pp. 3102–3116). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2023.emnlp-main.187" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2023.emnlp-main.187</a></p>
+                <p class="apa-ref">Malkov, Y. A., &amp; Yashunin, D. A. (2020). Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, <em>42</em>(4), 824–836. <a href="https://doi.org/10.1109/TPAMI.2018.2889473" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1109/TPAMI.2018.2889473</a></p>
+                <p class="apa-ref">Microsoft Corporation. (2024). <em>Azure Virtual Network, Network Security Groups (NSG) and B-series virtual machines documentation</em>. Microsoft Learn. <a href="https://learn.microsoft.com/en-us/azure/virtual-network/" target="_blank" class="text-sky-400 hover:underline">https://learn.microsoft.com/en-us/azure/virtual-network/</a></p>
+                <p class="apa-ref">Model Context Protocol. (2025). <em>Specification - Model Context Protocol</em>. <a href="https://modelcontextprotocol.io/specification" target="_blank" class="text-sky-400 hover:underline">https://modelcontextprotocol.io/specification</a></p>
+                <p class="apa-ref">Modran, H. A. (2025). Protocol-driven hybrid architecture integrating Retrieval-Augmented Generation (RAG) with Model Context Protocol (MCP) and Agent Communication Protocol (ACP). <em>Applied Sciences</em>, <em>15</em>(21), Artículo 11443. <a href="https://doi.org/10.3390/app152111443" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.3390/app152111443</a></p>
+                <p class="apa-ref">Muennighoff, N., Tazi, N., Magne, L., &amp; Reimers, N. (2023). MTEB: Massive Text Embedding Benchmark. En <em>Proceedings of the 17th Conference of the European Chapter of the Association for Computational Linguistics (EACL 2023)</em> (pp. 2014–2037). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2023.eacl-main.148" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2023.eacl-main.148</a></p>
+                <p class="apa-ref">National Institute of Standards and Technology [NIST]. (2020). <em>Security and privacy controls for information systems and organizations</em> (NIST Special Publication 800-53, Rev. 5). U.S. Department of Commerce. <a href="https://doi.org/10.6028/NIST.SP.800-53r5" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.6028/NIST.SP.800-53r5</a></p>
+                <p class="apa-ref">Nogueira, R., Jiang, Z., Pradeep, R., &amp; Lin, J. (2020). Document ranking with a pretrained sequence-to-sequence model. En <em>Findings of the Association for Computational Linguistics: EMNLP 2020</em> (pp. 708–718). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2020.findings-emnlp.63" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2020.findings-emnlp.63</a></p>
+                <p class="apa-ref">Qin, Y., Liang, S., Ye, Y., Zhu, K., Yan, L., Lu, Y., Lin, Y., Cong, X., Tang, X., Qian, B., Zhao, S., Hong, L., Tian, R., Xie, R., Zhou, J., Gerstein, M., Li, D., Liu, Z., &amp; Sun, M. (2024). ToolLLM: Facilitating large language models to master 16000+ real-world APIs. En <em>The Twelfth International Conference on Learning Representations (ICLR 2024)</em>. <a href="https://openreview.net/forum?id=dHng2O0Jjr" target="_blank" class="text-sky-400 hover:underline">https://openreview.net/forum?id=dHng2O0Jjr</a></p>
+                <p class="apa-ref">Ribeiro, M. T., Wu, T., Guestrin, C., &amp; Singh, S. (2020). Beyond accuracy: Behavioral testing of NLP models with CheckList. En <em>Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics (ACL 2020)</em> (pp. 4902–4912). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2020.acl-main.442" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2020.acl-main.442</a></p>
+                <p class="apa-ref">Robertson, S., &amp; Zaragoza, H. (2009). The probabilistic relevance framework: BM25 and beyond. <em>Foundations and Trends in Information Retrieval</em>, <em>3</em>(4), 333–389. <a href="https://doi.org/10.1561/1500000019" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1561/1500000019</a></p>
+                <p class="apa-ref">Roy, D., Zhang, X., Bhave, A., Bansal, C., Las-Casas, P., Fonseca, R., &amp; Rajmohan, S. (2024). Exploring LLM-based agents for root cause analysis. En <em>Companion Proceedings of the 32nd ACM International Conference on the Foundations of Software Engineering (FSE 2024)</em> (pp. 208–219). ACM. <a href="https://doi.org/10.1145/3663529.3663841" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1145/3663529.3663841</a></p>
+                <p class="apa-ref">Saad-Falcon, J., Khattab, O., Potts, C., &amp; Zaharia, M. (2024). ARES: An automated evaluation framework for retrieval-augmented generation systems. En <em>Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)</em> (pp. 338–354). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2024.naacl-long.20" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2024.naacl-long.20</a></p>
+                <p class="apa-ref">Schick, T., Dwivedi-Yu, J., Dessì, R., Raileanu, R., Lomeli, M., Zettlemoyer, L., Cancedda, N., &amp; Scialom, T. (2023). Toolformer: Language models can teach themselves to use tools. <em>Advances in Neural Information Processing Systems</em>, <em>36</em>, 68539–68551. <a href="https://doi.org/10.48550/arXiv.2302.04761" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2302.04761</a></p>
+                <p class="apa-ref">Shuster, K., Poff, S., Chen, M., Kiela, D., &amp; Weston, J. (2021). Retrieval augmentation reduces hallucination in conversation. En <em>Findings of the Association for Computational Linguistics: EMNLP 2021</em> (pp. 3784–3803). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2021.findings-emnlp.320" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2021.findings-emnlp.320</a></p>
+                <p class="apa-ref">Śmigielski, M., Rajkowski, M., Zbrocki, M., Bernacki-Janson, M., Kunicki, K., Godziszewska, J., Piasecki, M., &amp; Wojtasik, K. (2026). Chunking methods on Retrieval-Augmented Generation effectiveness evaluation against computational cost and limitations. <em>Procedia Computer Science</em> (KES 2026).</p>
+                <p class="apa-ref">Toro Isaza, P., et al. (2025). Building a solution recommendation system for resolving IT support cases with retrieval-augmented generation. En <em>Proceedings of the Thirty-Ninth AAAI Conference on Artificial Intelligence (AAAI-25 / IAAI-25)</em>. Association for the Advancement of Artificial Intelligence.</p>
+                <p class="apa-ref">VMware. (2024). <em>Spring Security reference documentation: In-memory authentication and BCryptPasswordEncoder</em>. Spring.io. <a href="https://docs.spring.io/spring-security/reference/" target="_blank" class="text-sky-400 hover:underline">https://docs.spring.io/spring-security/reference/</a></p>
+                <p class="apa-ref">Xu, Z., Cruz, M. J., Guevara, M., Wang, T., Deshpande, M., Wang, X., &amp; Li, Z. (2024). Retrieval-augmented generation with knowledge graphs for customer service question answering. En <em>Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2024)</em> (pp. 2905–2909). ACM. <a href="https://doi.org/10.1145/3626772.3661370" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.1145/3626772.3661370</a></p>
+                <p class="apa-ref">Yan, S.-Q., Gu, J.-C., Zhu, Y., &amp; Ling, Z.-H. (2024). Corrective retrieval augmented generation. <em>arXiv preprint arXiv:2401.15884</em>. <a href="https://doi.org/10.48550/arXiv.2401.15884" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2401.15884</a></p>
+                <p class="apa-ref">Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., &amp; Cao, Y. (2023). ReAct: Synergizing reasoning and acting in language models. En <em>The Eleventh International Conference on Learning Representations (ICLR 2023)</em>. <a href="https://doi.org/10.48550/arXiv.2210.03629" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.48550/arXiv.2210.03629</a></p>
+                <p class="apa-ref">Yao, S., Shinn, N., Razavi, P., &amp; Narasimhan, K. (2025). &tau;-bench: A benchmark for tool-agent-user interaction in real-world domains. En <em>The Thirteenth International Conference on Learning Representations (ICLR 2025)</em>. <a href="https://openreview.net/forum?id=1b126cc38b" target="_blank" class="text-sky-400 hover:underline">https://openreview.net/forum?id=1b126cc38b</a></p>
+                <p class="apa-ref">Zhan, Q., Liang, Z., Ying, Z., &amp; Kang, D. (2024). InjecAgent: Benchmarking indirect prompt injections in tool-integrated large language model agents. En <em>Findings of the Association for Computational Linguistics: ACL 2024</em> (pp. 10471–10506). Association for Computational Linguistics. <a href="https://doi.org/10.18653/v1/2024.findings-acl.624" target="_blank" class="text-sky-400 hover:underline">https://doi.org/10.18653/v1/2024.findings-acl.624</a></p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Institucional -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/60 mt-16 py-10 px-6 text-center text-slate-400 text-xs">
+        <div class="max-w-6xl mx-auto space-y-2">
+            <p class="font-bold text-slate-200">Universidad Privada de Tacna • Facultad de Ingeniería • Escuela Profesional de Ingeniería de Sistemas (2026-II)</p>
+            <p>Equipo Investigador: Matteo Cutipa Peralta • Milagros Condori Acero • Mario Gómez Mamani • Emerson Pariguana Yujra • Geovani Lajo Zuela • André Valdez Fernández</p>
+            <p class="text-slate-500">Unidad II: Diseño de la Solución Tecnológica — Aplicación Web de Asistencia Documental basada en RAG y MCP (ProjectSevera)</p>
+        </div>
     </footer>
 
+    <!-- Script de filtrado en vivo para las 58 referencias APA 7 -->
+    <script>
+        function filterRefs() {
+            const input = document.getElementById('refSearch').value.toLowerCase();
+            const refs = document.querySelectorAll('#refList p');
+            refs.forEach(p => {
+                p.style.display = p.innerText.toLowerCase().includes(input) ? '' : 'none';
+            });
+        }
+    </script>
 </body>
 </html>
